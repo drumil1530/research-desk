@@ -1,0 +1,38 @@
+import {
+  Card,
+  CardFrame,
+  CardFrameDescription,
+  CardFrameFooter,
+  CardFrameHeader,
+  CardFrameTitle,
+  CardPanel,
+} from "@/coss/ui/card";
+import SignUpForm from "@/features/auth/components/sign-up-form";
+import appRoutes from "@/shared/app-routes";
+import Link from "next/link";
+
+export default function SignUpPage() {
+  return (
+    <CardFrame>
+      <CardFrameHeader>
+        <CardFrameTitle>Create your account</CardFrameTitle>
+        <CardFrameDescription>Start organizing your research in one place.</CardFrameDescription>
+      </CardFrameHeader>
+
+      <Card>
+        <CardPanel>
+          <SignUpForm />
+        </CardPanel>
+      </Card>
+
+      <CardFrameFooter>
+        <p className="text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link href={appRoutes.auth.signIn} className="hover:underline underline-offset-4">
+            Sign in
+          </Link>
+        </p>
+      </CardFrameFooter>
+    </CardFrame>
+  );
+}
