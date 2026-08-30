@@ -1,8 +1,10 @@
 "use client";
 
-import { cn } from "@/coss/utils";
 import { Input as InputPrimitive } from "@base-ui/react/input";
 import type * as React from "react";
+
+import { cn } from "@/coss/utils";
+
 
 export type InputProps = Omit<
   InputPrimitive.Props & React.RefAttributes<HTMLInputElement>,

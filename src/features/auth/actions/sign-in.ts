@@ -1,13 +1,15 @@
 "use server";
 
-import { authService } from "@/infrastructure/auth";
-import appRoutes from "@/shared/app-routes";
-import { Result } from "@/shared/types/result";
 import { APIError } from "better-auth";
 import { redirect } from "next/navigation";
 import z from "zod";
-import { SignInInput, signInSchema } from "../schemas/auth.schema";
-import { AuthActionError } from "../types/auth.types";
+
+import { authService } from "@/infrastructure/auth";
+import appRoutes from "@/shared/app-routes";
+import { type Result } from "@/shared/types/result";
+
+import { type SignInInput, signInSchema } from "../schemas/auth.schema";
+import { type AuthActionError } from "../types/auth.types";
 
 type ActionResult = Promise<Result<void, AuthActionError<SignInInput>>>;
 

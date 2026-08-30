@@ -1,11 +1,13 @@
 "use server";
 
-import { authService } from "@/infrastructure/auth";
-import appRoutes from "@/shared/app-routes";
-import type { Result } from "@/shared/types/result";
 import { APIError } from "better-auth";
 import { redirect } from "next/navigation";
-import { z } from "zod";
+import z from "zod";
+
+import { authService } from "@/infrastructure/auth";
+import appRoutes from "@/shared/app-routes";
+import { type Result } from "@/shared/types/result";
+
 import { signUpSchema, type SignUpInput } from "../schemas/auth.schema";
 import type { AuthActionError } from "../types/auth.types";
 

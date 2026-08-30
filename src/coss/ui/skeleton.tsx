@@ -1,5 +1,7 @@
-import { cn } from "@/coss/utils";
 import type React from "react";
+
+import { cn } from "@/coss/utils";
+
 
 export function Skeleton({ className, ...props }: React.ComponentProps<"div">): React.ReactElement {
   return (

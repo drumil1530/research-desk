@@ -1,5 +1,9 @@
 "use client";
 
+import { Dialog as CommandDialogPrimitive } from "@base-ui/react/dialog";
+import { SearchIcon } from "lucide-react";
+import type * as React from "react";
+
 import {
   Autocomplete,
   AutocompleteCollection,
@@ -12,9 +16,7 @@ import {
   AutocompleteSeparator,
 } from "@/coss/ui/autocomplete";
 import { cn } from "@/coss/utils";
-import { Dialog as CommandDialogPrimitive } from "@base-ui/react/dialog";
-import { SearchIcon } from "lucide-react";
-import type * as React from "react";
+
 
 export const CommandDialog: typeof CommandDialogPrimitive.Root = CommandDialogPrimitive.Root;
 

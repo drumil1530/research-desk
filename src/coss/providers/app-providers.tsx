@@ -1,5 +1,6 @@
-import { PropsWithChildren } from "react";
-import { ThemeProvider } from "./theme-provider";
+import { type PropsWithChildren } from "react";
+
+import ThemeProvider from "./theme-provider";
 import TooltipProvider from "./tooltip-provider";
 
 export default function AppProviders({ children }: PropsWithChildren) {

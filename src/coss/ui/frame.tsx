@@ -1,5 +1,7 @@
-import { cn } from "@/coss/utils";
 import type * as React from "react";
+
+import { cn } from "@/coss/utils";
+
 
 export function Frame({ className, ...props }: React.ComponentProps<"div">): React.ReactElement {
   return (

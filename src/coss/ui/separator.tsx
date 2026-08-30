@@ -1,6 +1,8 @@
-import { cn } from "@/coss/utils";
 import { Separator as SeparatorPrimitive } from "@base-ui/react/separator";
 import type React from "react";
+
+import { cn } from "@/coss/utils";
+
 
 export function Separator({
   className,

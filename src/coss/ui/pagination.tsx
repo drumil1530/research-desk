@@ -1,11 +1,13 @@
 "use client";
 
-import { type Button, buttonVariants } from "@/coss/ui/button";
-import { cn } from "@/coss/utils";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
 import type * as React from "react";
+
+import { type Button, buttonVariants } from "@/coss/ui/button";
+import { cn } from "@/coss/utils";
+
 
 export function Pagination({
   className,

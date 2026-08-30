@@ -1,8 +1,10 @@
 "use client";
 
-import { cn } from "@/coss/utils";
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
 import type React from "react";
+
+import { cn } from "@/coss/utils";
+
 
 export const PreviewCard: typeof PreviewCardPrimitive.Root = PreviewCardPrimitive.Root;
 

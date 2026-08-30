@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   Card,
   CardFrame,
@@ -9,7 +11,6 @@ import {
 } from "@/coss/ui/card";
 import SignInForm from "@/features/auth/components/sign-in-form";
 import appRoutes from "@/shared/app-routes";
-import Link from "next/link";
 
 export default function SignInPage() {
   return (

@@ -1,8 +1,10 @@
 "use client";
 
-import { cn } from "@/coss/utils";
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
 import type React from "react";
+
+import { cn } from "@/coss/utils";
+
 
 export function Avatar({ className, ...props }: AvatarPrimitive.Root.Props): React.ReactElement {
   return (

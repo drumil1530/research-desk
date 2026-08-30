@@ -1,11 +1,13 @@
 "use client";
 
-import { Input } from "@/coss/ui/input";
-import { ScrollArea } from "@/coss/ui/scroll-area";
-import { cn } from "@/coss/utils";
 import { Autocomplete as AutocompletePrimitive } from "@base-ui/react/autocomplete";
 import { ChevronsUpDownIcon, XIcon } from "lucide-react";
 import type React from "react";
+
+import { Input } from "@/coss/ui/input";
+import { ScrollArea } from "@/coss/ui/scroll-area";
+import { cn } from "@/coss/utils";
+
 
 export const Autocomplete: typeof AutocompletePrimitive.Root = AutocompletePrimitive.Root;
 

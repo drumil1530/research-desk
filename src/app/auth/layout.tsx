@@ -1,10 +1,11 @@
-import { Logo } from "@/components/icons/logo";
-import { getCurrentUser } from "@/infrastructure/auth/internal/services";
-import appRoutes from "@/shared/app-routes";
 import { redirect } from "next/navigation";
 
+import { Logo } from "@/components/icons/logo";
+import { authService } from "@/infrastructure/auth";
+import appRoutes from "@/shared/app-routes";
+
 export default async function AuthLayout({ children }: LayoutProps<"/auth">) {
-  if (await getCurrentUser()) redirect(appRoutes.research.list);
+  if (await authService.getCurrentUser()) redirect(appRoutes.research.list);
 
   return (
     <main className="flex min-h-svh flex-col">

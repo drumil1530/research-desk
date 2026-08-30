@@ -3,12 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { Button } from "@/coss/ui/button";
-import { Form } from "@/coss/ui/form";
-
 import FormError from "@/components/form/form-error";
 import FormTextField from "@/components/form/form-text-field";
+import { Button } from "@/coss/ui/button";
+import { Form } from "@/coss/ui/form";
 import { setFormErrors, toFormErrors } from "@/shared/utils/form";
+
 import { signUp } from "../actions/sign-up";
 import { signUpSchema, type SignUpInput } from "../schemas/auth.schema";
 

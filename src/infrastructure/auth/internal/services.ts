@@ -1,7 +1,8 @@
 import { headers } from "next/headers";
+
 import "server-only";
 import { auth } from "./auth";
-import { SignInInput, SignUpInput } from "./types";
+import { type SignInInput, type SignUpInput } from "./types";
 
 export async function getCurrentUser() {
   const session = await auth.api.getSession({
