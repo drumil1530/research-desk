@@ -11,7 +11,7 @@ import type { FormErrors } from "@/shared/types/form";
 import { setFormErrors } from "@/shared/utils/form";
 
 import { signIn } from "../actions/sign-in";
-import { signInSchema, type SignInInput } from "../schemas/auth.schema";
+import { signInSchema, type SignInInput } from "../schema";
 
 export default function SignInForm() {
   const form = useForm<SignInInput>({

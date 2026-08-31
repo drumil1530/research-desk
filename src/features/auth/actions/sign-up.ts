@@ -8,8 +8,8 @@ import { authService } from "@/infrastructure/auth";
 import appRoutes from "@/shared/app-routes";
 import { type Result } from "@/shared/types/result";
 
-import { signUpSchema, type SignUpInput } from "../schemas/auth.schema";
-import type { AuthActionError } from "../types/auth.types";
+import { signUpSchema, type SignUpInput } from "../schema";
+import type { AuthActionError } from "../types";
 
 type ActionResult = Promise<Result<void, AuthActionError<SignUpInput>>>;
 

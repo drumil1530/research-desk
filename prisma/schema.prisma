@@ -101,6 +101,7 @@ model Research {
   sources     Source[]
   notes       Note[]
 
+  @@unique([id, userId])
   @@index([userId])
 }
 
@@ -116,6 +117,7 @@ model Source {
   research    Research   @relation(fields: [researchId], references: [id], onDelete: Cascade)
   notes       Note[]
 
+  @@unique([id, researchId])
   @@index([researchId])
 }
 
@@ -129,6 +131,7 @@ model Note {
   research   Research @relation(fields: [researchId], references: [id], onDelete: Cascade)
   source     Source?  @relation(fields: [sourceId], references: [id], onDelete: SetNull)
 
+  @@unique([id, researchId])
   @@index([researchId])
   @@index([sourceId])
 }

@@ -1,10 +1,13 @@
-import { headers } from "next/headers";
-
 import "server-only";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+
+import appRoutes from "@/shared/app-routes";
+
 import { auth } from "./auth";
 import { type SignInInput, type SignUpInput } from "./types";
 
-export async function getCurrentUser() {
+async function getCurrentUser() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -13,7 +16,16 @@ export async function getCurrentUser() {
   else return session.user;
 }
 
-export async function signUp(input: SignUpInput) {
+async function getUserOrRedirect() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) redirect(appRoutes.auth.signIn);
+  else return session.user;
+}
+
+async function signUp(input: SignUpInput) {
   const { name, email, password } = input;
 
   await auth.api.signUpEmail({
@@ -26,7 +38,7 @@ export async function signUp(input: SignUpInput) {
   });
 }
 
-export async function signIn(input: SignInInput) {
+async function signIn(input: SignInInput) {
   const { email, password } = input;
 
   await auth.api.signInEmail({
@@ -38,8 +50,16 @@ export async function signIn(input: SignInInput) {
   });
 }
 
-export async function signOut() {
+async function signOut() {
   await auth.api.signOut({
     headers: await headers(),
   });
 }
+
+export const service = {
+  getCurrentUser,
+  getUserOrRedirect,
+  signUp,
+  signIn,
+  signOut,
+};

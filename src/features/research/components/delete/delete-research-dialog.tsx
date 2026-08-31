@@ -1,0 +1,69 @@
+"use client";
+
+import { Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import {
+  AlertDialog,
+  AlertDialogClose,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogPopup,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/coss/ui/alert-dialog";
+import { Button } from "@/coss/ui/button";
+import deleteResearch from "@/features/research/actions/delete-research";
+import appRoutes from "@/shared/app-routes";
+
+type DeleteResearchDialogProps = {
+  id: string;
+};
+
+export default function DeleteResearchDialog({ id }: DeleteResearchDialogProps) {
+  const router = useRouter();
+
+  async function onDelete() {
+    const result = await deleteResearch({ id });
+
+    if (!result.success) {
+      // We'll handle this once we decide how
+      // destructive-action errors should be displayed.
+      return;
+    }
+
+    router.push(appRoutes.research.list);
+  }
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger
+        render={
+          <Button variant="destructive-outline">
+            <Trash2 />
+            Delete
+          </Button>
+        }
+      />
+
+      <AlertDialogPopup>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Research?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This research and all of its data will be permanently deleted. This action cannot be
+            undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+
+        <AlertDialogFooter variant="bare">
+          <AlertDialogClose render={<Button variant="ghost" />}>Cancel</AlertDialogClose>
+
+          <Button onClick={onDelete} variant="destructive">
+            Delete
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogPopup>
+    </AlertDialog>
+  );
+}

@@ -1,16 +1,34 @@
-import { Frame, FrameHeader, FramePanel, FrameTitle } from "@/coss/ui/frame";
-import SignOutButton from "@/features/auth/components/sign-out-button";
+import { Suspense } from "react";
 
-export default function ResearchListPage() {
+import {
+  CardFrame,
+  CardFrameAction,
+  CardFrameDescription,
+  CardFrameHeader,
+  CardFrameTitle,
+  CardPanel,
+} from "@/coss/ui/card";
+import CreateResearchDialog from "@/features/research/components/create/create-research-dialog";
+import ResearchList from "@/features/research/components/list/research-list";
+import ResearchListSkeleton from "@/features/research/components/list/research-list-skeleton";
+
+export default function ResearchPage() {
   return (
-    <Frame>
-      <FrameHeader>
-        <FrameTitle>Researches</FrameTitle>
-      </FrameHeader>
-      <FramePanel>
-        <p>Not Implemented yet!</p>
-        <SignOutButton />
-      </FramePanel>
-    </Frame>
+    <CardFrame className="mx-auto flex w-full max-w-5xl">
+      <CardFrameHeader>
+        <CardFrameTitle className="text-2xl">Research</CardFrameTitle>
+        <CardFrameDescription>Explore and manage your research.</CardFrameDescription>
+
+        <CardFrameAction>
+          <CreateResearchDialog />
+        </CardFrameAction>
+      </CardFrameHeader>
+
+      <CardPanel className="pt-2">
+        <Suspense fallback={<ResearchListSkeleton />}>
+          <ResearchList />
+        </Suspense>
+      </CardPanel>
+    </CardFrame>
   );
 }

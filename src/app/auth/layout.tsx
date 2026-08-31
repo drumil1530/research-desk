@@ -4,6 +4,8 @@ import { Logo } from "@/components/icons/logo";
 import { authService } from "@/infrastructure/auth";
 import appRoutes from "@/shared/app-routes";
 
+export const instant = false;
+
 export default async function AuthLayout({ children }: LayoutProps<"/auth">) {
   if (await authService.getCurrentUser()) redirect(appRoutes.research.list);
 

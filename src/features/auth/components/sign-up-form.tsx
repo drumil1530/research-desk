@@ -10,7 +10,7 @@ import { Form } from "@/coss/ui/form";
 import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 import { signUp } from "../actions/sign-up";
-import { signUpSchema, type SignUpInput } from "../schemas/auth.schema";
+import { signUpSchema, type SignUpInput } from "../schema";
 
 export default function SignUpForm() {
   const form = useForm<SignUpInput>({
