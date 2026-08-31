@@ -1,34 +1,36 @@
 import { Suspense } from "react";
 
 import {
-  CardFrame,
-  CardFrameAction,
-  CardFrameDescription,
-  CardFrameHeader,
-  CardFrameTitle,
-  CardPanel,
-} from "@/coss/ui/card";
+  Page,
+  PageActions,
+  PageContent,
+  PageDescription,
+  PageHeader,
+  PageTitle,
+} from "@/components/core/page";
 import CreateResearchDialog from "@/features/research/components/create/create-research-dialog";
 import ResearchList from "@/features/research/components/list/research-list";
 import ResearchListSkeleton from "@/features/research/components/list/research-list-skeleton";
 
 export default function ResearchPage() {
   return (
-    <CardFrame className="mx-auto flex w-full max-w-5xl">
-      <CardFrameHeader>
-        <CardFrameTitle className="text-2xl">Research</CardFrameTitle>
-        <CardFrameDescription>Explore and manage your research.</CardFrameDescription>
+    <Page>
+      <PageHeader>
+        <div className="space-y-1">
+          <PageTitle>Research</PageTitle>
+          <PageDescription>Explore and manage your research.</PageDescription>
+        </div>
 
-        <CardFrameAction>
+        <PageActions>
           <CreateResearchDialog />
-        </CardFrameAction>
-      </CardFrameHeader>
+        </PageActions>
+      </PageHeader>
 
-      <CardPanel className="pt-2">
+      <PageContent>
         <Suspense fallback={<ResearchListSkeleton />}>
           <ResearchList />
         </Suspense>
-      </CardPanel>
-    </CardFrame>
+      </PageContent>
+    </Page>
   );
 }

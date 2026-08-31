@@ -1,8 +1,8 @@
 import { formatDistanceToNow } from "date-fns";
 import { notFound } from "next/navigation";
 
+import { Page, PageHeader, PageContent, PageTitle, PageActions } from "@/components/core/page";
 import { Badge } from "@/coss/ui/badge";
-import { Frame, FrameHeader, FramePanel, FrameTitle } from "@/coss/ui/frame";
 import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
 
@@ -28,11 +28,11 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
   }
 
   return (
-    <Frame className="mx-auto w-full max-w-5xl">
-      <FrameHeader className="flex-row justify-between">
-        <FrameTitle className="text-2xl">{research.title}</FrameTitle>
+    <Page>
+      <PageHeader>
+        <PageTitle>{research.title}</PageTitle>
 
-        <div className="flex gap-2 items-center">
+        <PageActions>
           <UpdateResearchDialog
             id={research.id}
             title={research.title}
@@ -46,18 +46,18 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
           <Badge variant={research.status === "ACTIVE" ? "default" : "secondary"}>
             {research.status === "ACTIVE" ? "Active" : "Completed"}
           </Badge>
-        </div>
-      </FrameHeader>
+        </PageActions>
+      </PageHeader>
 
-      <FramePanel>
+      <PageContent>
         {research.description && <p className="whitespace-pre-wrap">{research.description}</p>}
         <time className="text-muted-foreground text-sm" dateTime={research.updatedAt.toISOString()}>
           Updated {formatDistanceToNow(research.updatedAt, { addSuffix: true })}
         </time>
-      </FramePanel>
+      </PageContent>
 
       {research.status === "COMPLETED" && (
-        <FramePanel>
+        <PageContent>
           <h2 className="font-semibold pb-4">Summary</h2>
 
           <div className="grid gap-2">
@@ -72,8 +72,8 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
               </time>
             )}
           </div>
-        </FramePanel>
+        </PageContent>
       )}
-    </Frame>
+    </Page>
   );
 }
