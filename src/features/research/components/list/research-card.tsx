@@ -2,7 +2,7 @@ import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 
 import { Badge } from "@/coss/ui/badge";
-import { Card, CardHeader, CardTitle, CardAction, CardPanel } from "@/coss/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/coss/ui/card";
 import { type service } from "@/infrastructure/database";
 
 type ResearchCardProps = {
@@ -16,24 +16,25 @@ export default function ResearchCard({ research }: ResearchCardProps) {
       render={<Link href={`/research/${research.id}`} />}
     >
       <CardHeader>
-        <CardTitle>{research.title}</CardTitle>
+        <CardTitle className="text-base sm:text-lg">{research.title}</CardTitle>
 
-        <CardAction>
+        {research.description && (
+          <CardDescription className="line-clamp-2">{research.description}</CardDescription>
+        )}
+
+        <div className="flex items-center justify-between gap-2 mt-2">
+          <time
+            className="text-muted-foreground text-sm"
+            dateTime={research.updatedAt.toISOString()}
+          >
+            Updated {formatDistanceToNow(research.updatedAt, { addSuffix: true })}
+          </time>
+
           <Badge variant={research.status === "ACTIVE" ? "default" : "secondary"}>
             {research.status === "ACTIVE" ? "Active" : "Completed"}
           </Badge>
-        </CardAction>
+        </div>
       </CardHeader>
-
-      <CardPanel className="grid gap-2">
-        {research.description && (
-          <p className="line-clamp-1 text-muted-foreground">{research.description}</p>
-        )}
-
-        <time className="text-muted-foreground text-sm" dateTime={research.updatedAt.toISOString()}>
-          Updated {formatDistanceToNow(research.updatedAt, { addSuffix: true })}
-        </time>
-      </CardPanel>
     </Card>
   );
 }

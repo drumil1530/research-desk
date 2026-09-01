@@ -7,15 +7,15 @@ import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
 import { type Result } from "@/shared/types/result";
 
-import { deleteResearchSchema, type DeleteResearchInput } from "../schemas";
-import { type ResearchActionError } from "../types";
+import { type DeleteSourceInput, deleteSourceSchema } from "../schemas";
+import { type SourceActionError } from "../types";
 
-type Response = Awaited<ReturnType<typeof service.research.delete>>;
+type Response = Awaited<ReturnType<typeof service.source.delete>>;
 
-type ActionResult = Promise<Result<Response, ResearchActionError<DeleteResearchInput>>>;
+type ActionResult = Promise<Result<Response, SourceActionError<DeleteSourceInput>>>;
 
-export default async function deleteResearch(input: DeleteResearchInput): ActionResult {
-  const result = deleteResearchSchema.safeParse(input);
+export default async function deleteSource(input: DeleteSourceInput): ActionResult {
+  const result = deleteSourceSchema.safeParse(input);
 
   if (!result.success) {
     return {
@@ -27,13 +27,27 @@ export default async function deleteResearch(input: DeleteResearchInput): Action
     };
   }
 
-  const { id } = result.data;
+  const { id, researchId } = result.data;
   const { id: userId } = await authService.getUserOrRedirect();
+  const isOwner = await service.research.isOwnedBy({
+    researchId,
+    userId,
+  });
+
+  if (!isOwner) {
+    return {
+      success: false,
+      error: {
+        type: "notFound",
+        message: "Requested Research not found.",
+      },
+    };
+  }
 
   try {
-    const response = await service.research.delete({
+    const response = await service.source.delete({
       id,
-      userId,
+      researchId,
     });
 
     return {

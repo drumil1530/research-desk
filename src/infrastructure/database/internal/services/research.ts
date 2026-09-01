@@ -1,10 +1,11 @@
 import { db } from "../db";
-import {
-  type ResearchGetByIdInput,
-  type ResearchCreateInput,
-  type ResearchListInput,
-  type ResearchUpdateInput,
-  type ResearchDeleteInput,
+import type {
+  ResearchGetByIdInput,
+  ResearchCreateInput,
+  ResearchListInput,
+  ResearchUpdateInput,
+  ResearchDeleteInput,
+  ResearchOwnedByInput,
 } from "../types/research";
 
 async function create(input: ResearchCreateInput) {
@@ -70,10 +71,29 @@ async function remove(input: ResearchDeleteInput) {
   });
 }
 
+async function isOwnedBy(input: ResearchOwnedByInput) {
+  const { researchId: id, userId } = input;
+
+  const research = await db.research.findUnique({
+    where: {
+      id_userId: {
+        id,
+        userId,
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  return research !== null;
+}
+
 export const research = {
   create,
   getById,
   list,
   update,
   delete: remove,
+  isOwnedBy,
 };

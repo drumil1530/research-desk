@@ -29,3 +29,8 @@ export type ResearchDeleteInput = {
   id: string;
   userId: string;
 };
+
+export type ResearchOwnedByInput = {
+  researchId: string;
+  userId: string;
+};

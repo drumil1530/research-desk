@@ -19,10 +19,6 @@ export const createResearchSchema = z.object({
   description: descriptionSchema,
 });
 
-export const getResearchSchema = z.object({
-  id: idSchema,
-});
-
 export const updateResearchSchema = z.object({
   id: idSchema,
   title: titleSchema,
@@ -38,7 +34,11 @@ export const completeResearchSchema = z.object({
     .max(5000, { error: "Summary must be 5000 characters or less." }),
 });
 
+export const deleteResearchSchema = z.object({
+  id: idSchema,
+});
+
 export type CreateResearchInput = z.infer<typeof createResearchSchema>;
-export type GetResearchInput = z.infer<typeof getResearchSchema>;
 export type UpdateResearchInput = z.infer<typeof updateResearchSchema>;
 export type CompleteResearchInput = z.infer<typeof completeResearchSchema>;
+export type DeleteResearchInput = z.infer<typeof deleteResearchSchema>;

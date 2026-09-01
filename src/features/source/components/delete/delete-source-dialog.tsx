@@ -1,6 +1,5 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -12,23 +11,29 @@ import {
   AlertDialogHeader,
   AlertDialogPopup,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/coss/ui/alert-dialog";
 import { Button } from "@/coss/ui/button";
-import deleteResearch from "@/features/research/actions/delete-research";
-import appRoutes from "@/shared/app-routes";
+import deleteSource from "@/features/source/actions/delete-source";
 
-type DeleteResearchDialogProps = {
+type DeleteSourceDialogProps = {
+  open: boolean;
+  onOpenChange: (value: boolean) => void;
   id: string;
+  researchId: string;
 };
 
-export default function DeleteResearchDialog({ id }: DeleteResearchDialogProps) {
+export default function DeleteSourceDialog({
+  open,
+  onOpenChange,
+  id,
+  researchId,
+}: DeleteSourceDialogProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
   async function onDelete() {
     setIsDeleting(true);
-    const result = await deleteResearch({ id });
+    const result = await deleteSource({ id, researchId });
 
     if (!result.success) {
       setIsDeleting(false);
@@ -37,26 +42,18 @@ export default function DeleteResearchDialog({ id }: DeleteResearchDialogProps) 
       return;
     }
 
-    router.push(appRoutes.research.list);
+    onOpenChange(false);
+    router.refresh();
   }
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger
-        render={
-          <Button variant="destructive-outline">
-            <Trash2 />
-            Delete
-          </Button>
-        }
-      />
-
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogPopup>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Research?</AlertDialogTitle>
+          <AlertDialogTitle>Delete Source?</AlertDialogTitle>
           <AlertDialogDescription>
-            This research and all of its data will be permanently deleted. This action cannot be
-            undone.
+            This Source will be permanently deleted. This action cannot be undone. Any notes
+            associated with this Source will remain, but will no longer reference it.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
