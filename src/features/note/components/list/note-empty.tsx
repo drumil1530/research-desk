@@ -1,12 +1,12 @@
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/coss/ui/empty";
 
-export default function SourceEmpty() {
+export default function NoteEmpty() {
   return (
     <Empty className="p-6 md:p-8">
       <EmptyHeader>
-        <EmptyTitle>No sources yet</EmptyTitle>
+        <EmptyTitle>No notes yet</EmptyTitle>
         <EmptyDescription>
-          Add sources to keep track of the material you&apos;re researching.
+          Add notes to keep track of the material you&apos;re researching.
         </EmptyDescription>
       </EmptyHeader>
     </Empty>

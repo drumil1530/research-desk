@@ -10,6 +10,13 @@ export type SourceCreateInput = {
 
 export type SourceListInput = {
   researchId: string;
+  userId: string;
+};
+
+export type SourceGetByIdInput = {
+  id: string;
+  researchId: string;
+  userId: string;
 };
 
 export type SourceUpdateInput = {
@@ -22,6 +29,11 @@ export type SourceUpdateInput = {
 };
 
 export type SourceDeleteInput = {
+  id: string;
+  researchId: string;
+};
+
+export type SourceBelongsToResearchInput = {
   id: string;
   researchId: string;
 };

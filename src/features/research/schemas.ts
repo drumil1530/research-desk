@@ -1,6 +1,6 @@
 import z from "zod";
 
-const idSchema = z.uuid({ error: "Invalid research ID.", version: "v7" });
+export const researchIdSchema = z.uuid({ error: "Invalid research ID.", version: "v7" });
 
 const titleSchema = z
   .string()
@@ -20,13 +20,13 @@ export const createResearchSchema = z.object({
 });
 
 export const updateResearchSchema = z.object({
-  id: idSchema,
+  id: researchIdSchema,
   title: titleSchema,
   description: descriptionSchema.nullable(),
 });
 
 export const completeResearchSchema = z.object({
-  id: idSchema,
+  id: researchIdSchema,
   summary: z
     .string()
     .trim()
@@ -35,7 +35,7 @@ export const completeResearchSchema = z.object({
 });
 
 export const deleteResearchSchema = z.object({
-  id: idSchema,
+  id: researchIdSchema,
 });
 
 export type CreateResearchInput = z.infer<typeof createResearchSchema>;

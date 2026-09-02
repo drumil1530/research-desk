@@ -2,8 +2,9 @@ import z from "zod";
 
 import { SourceType } from "@/generated/prisma/enums";
 
-const idSchema = z.uuid({ error: "Invalid source ID.", version: "v7" });
-const researchIdSchema = z.uuid({ error: "Invalid research ID.", version: "v7" });
+import { researchIdSchema } from "../research/schemas";
+
+export const sourceIdSchema = z.uuid({ error: "Invalid source ID.", version: "v7" });
 
 const titleSchema = z
   .string()
@@ -30,7 +31,7 @@ export const createSourceSchema = z.object({
 });
 
 export const updateSourceSchema = z.object({
-  id: idSchema,
+  id: sourceIdSchema,
   researchId: researchIdSchema,
   title: titleSchema,
   description: descriptionSchema.nullable(),
@@ -39,7 +40,7 @@ export const updateSourceSchema = z.object({
 });
 
 export const deleteSourceSchema = z.object({
-  id: idSchema,
+  id: sourceIdSchema,
   researchId: researchIdSchema,
 });
 

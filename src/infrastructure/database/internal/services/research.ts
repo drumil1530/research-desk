@@ -6,6 +6,8 @@ import type {
   ResearchUpdateInput,
   ResearchDeleteInput,
   ResearchOwnedByInput,
+  ResearchNoteListInput,
+  ResearchSourceListInput,
 } from "../types/research";
 
 async function create(input: ResearchCreateInput) {
@@ -30,6 +32,35 @@ async function getById(input: ResearchGetByIdInput) {
         userId,
       },
     },
+    include: {
+      _count: {
+        select: {
+          sources: true,
+          notes: {
+            where: { sourceId: null },
+          },
+        },
+      },
+      sources: {
+        select: {
+          id: true,
+          title: true,
+          url: true,
+          type: true,
+        },
+        orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
+        take: 5,
+      },
+      notes: {
+        where: { sourceId: null },
+        select: {
+          id: true,
+          content: true,
+        },
+        orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
+        take: 5,
+      },
+    },
   });
 }
 
@@ -41,6 +72,72 @@ async function list(input: ResearchListInput) {
       userId,
     },
     orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
+  });
+}
+
+async function sourceList(input: ResearchSourceListInput) {
+  const { id, userId } = input;
+
+  return db.research.findUnique({
+    where: {
+      id_userId: {
+        id,
+        userId,
+      },
+    },
+    select: {
+      id: true,
+      _count: {
+        select: {
+          sources: true,
+        },
+      },
+      sources: {
+        include: {
+          _count: {
+            select: {
+              notes: {
+                where: {
+                  sourceId: { not: null },
+                },
+              },
+            },
+          },
+        },
+        orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
+      },
+    },
+  });
+}
+
+async function noteList(input: ResearchNoteListInput) {
+  const { id, userId } = input;
+
+  return db.research.findUnique({
+    where: {
+      id_userId: {
+        id,
+        userId,
+      },
+    },
+    select: {
+      id: true,
+      _count: {
+        select: {
+          notes: {
+            where: { sourceId: null },
+          },
+        },
+      },
+      notes: {
+        where: { sourceId: null },
+        select: {
+          id: true,
+          content: true,
+        },
+        orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
+      },
+    },
   });
 }
 
@@ -93,6 +190,8 @@ export const research = {
   create,
   getById,
   list,
+  noteList,
+  sourceList,
   update,
   delete: remove,
   isOwnedBy,

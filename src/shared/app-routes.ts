@@ -8,7 +8,14 @@ const appRoutes = {
 
   research: {
     list: "/research",
-    overview: (id: string) => `/research/${id}`,
+    overview: (researchId: string) => `/research/${researchId}`,
+    notes: (researchId: string) => `/research/${researchId}/notes`,
+
+    sources: {
+      list: (researchId: string) => `/research/${researchId}/sources`,
+      details: (researchId: string, sourceId: string) =>
+        `/research/${researchId}/sources/${sourceId}`,
+    },
   } as const,
 } as const;
 

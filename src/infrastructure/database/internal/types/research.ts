@@ -15,6 +15,16 @@ export type ResearchListInput = {
   userId: string;
 };
 
+export type ResearchNoteListInput = {
+  id: string;
+  userId: string;
+};
+
+export type ResearchSourceListInput = {
+  id: string;
+  userId: string;
+};
+
 export type ResearchUpdateInput = {
   id: string;
   userId: string;
