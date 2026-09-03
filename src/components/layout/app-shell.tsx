@@ -1,14 +1,12 @@
 "use client";
 
+import { type PropsWithChildren } from "react";
+
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/coss/ui/sidebar";
 
 import AppSidebar from "./app-sidebar";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export default function AppShell({ children }: Props) {
+export default function AppShell({ children }: PropsWithChildren) {
   return (
     <SidebarProvider>
       <AppSidebar />

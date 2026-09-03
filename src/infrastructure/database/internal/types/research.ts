@@ -11,8 +11,16 @@ export type ResearchGetByIdInput = {
   userId: string;
 };
 
+export type ResearchGetMetadataByIdInput = {
+  id: string;
+  userId: string;
+};
+
 export type ResearchListInput = {
   userId: string;
+
+  page: number;
+  search?: string;
 };
 
 export type ResearchNoteListInput = {
@@ -23,6 +31,9 @@ export type ResearchNoteListInput = {
 export type ResearchSourceListInput = {
   id: string;
   userId: string;
+
+  page: number;
+  search?: string;
 };
 
 export type ResearchUpdateInput = {

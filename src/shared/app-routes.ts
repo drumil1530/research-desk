@@ -7,14 +7,19 @@ const appRoutes = {
   },
 
   research: {
-    list: "/research",
-    overview: (researchId: string) => `/research/${researchId}`,
-    notes: (researchId: string) => `/research/${researchId}/notes`,
+    list: "/researches",
+    listPage: (page: number) => `/researches/page/${page}`,
+
+    overview: (researchId: string) => `/researches/${researchId}`,
+    notes: (researchId: string) => `/researches/${researchId}/notes`,
 
     sources: {
-      list: (researchId: string) => `/research/${researchId}/sources`,
+      list: (researchId: string) => `/researches/${researchId}/sources`,
+      listPage: (researchId: string, page: number) =>
+        `/researches/${researchId}/sources/page/${page}`,
+
       details: (researchId: string, sourceId: string) =>
-        `/research/${researchId}/sources/${sourceId}`,
+        `/researches/${researchId}/sources/${sourceId}`,
     },
   } as const,
 } as const;

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import {
@@ -11,6 +12,11 @@ import {
 } from "@/coss/ui/card";
 import SignInForm from "@/features/auth/components/sign-in-form";
 import appRoutes from "@/shared/app-routes";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Sign in to your Research Desk account.",
+};
 
 export default function SignInPage() {
   return (

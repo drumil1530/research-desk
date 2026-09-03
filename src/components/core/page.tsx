@@ -1,5 +1,13 @@
-import type { ComponentProps, PropsWithChildren } from "react";
+import { Fragment, type ComponentProps, type PropsWithChildren } from "react";
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/coss/ui/breadcrumb";
 import { cn } from "@/coss/utils";
 
 function Page({ children, className, ...props }: PropsWithChildren<ComponentProps<"div">>) {
@@ -10,6 +18,44 @@ function Page({ children, className, ...props }: PropsWithChildren<ComponentProp
     >
       {children}
     </div>
+  );
+}
+
+type BreadcrumbItem = {
+  label: string;
+  href: string;
+};
+
+type PageBreadcrumbProps = {
+  items: [...BreadcrumbItem[], { page: string }];
+} & ComponentProps<typeof Breadcrumb>;
+
+function PageBreadcrumb({ items, ...props }: PageBreadcrumbProps) {
+  return (
+    <Breadcrumb {...props}>
+      <BreadcrumbList>
+        {items.map((item, index) => {
+          if ("page" in item) {
+            return (
+              <BreadcrumbItem key={item.page}>
+                <BreadcrumbPage className="wrap-break-word">{item.page}</BreadcrumbPage>
+              </BreadcrumbItem>
+            );
+          }
+
+          return (
+            <Fragment key={`${item.label}-${index}`}>
+              <BreadcrumbItem>
+                <BreadcrumbLink href={item.href} className="wrap-break-word">
+                  {item.label}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+            </Fragment>
+          );
+        })}
+      </BreadcrumbList>
+    </Breadcrumb>
   );
 }
 
@@ -67,4 +113,4 @@ function PageContent({ children, className, ...props }: PropsWithChildren<Compon
   );
 }
 
-export { Page, PageHeader, PageTitle, PageDescription, PageActions, PageContent };
+export { Page, PageBreadcrumb, PageHeader, PageTitle, PageDescription, PageActions, PageContent };

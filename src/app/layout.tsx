@@ -16,7 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Research Desk",
+  title: {
+    template: "%s | Research Desk",
+    default: "Research Desk",
+  },
   description:
     "A focused research workspace for turning a question into an organized collection of sources, notes, and conclusions.",
 };

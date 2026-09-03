@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import {
   Page,
   PageActions,
+  PageBreadcrumb,
   PageContent,
   PageDescription,
   PageHeader,
@@ -12,9 +13,16 @@ import CreateResearchDialog from "@/features/research/components/create/create-r
 import ResearchList from "@/features/research/components/list/research-list";
 import ResearchListSkeleton from "@/features/research/components/list/research-list-skeleton";
 
-export default function ResearchPage() {
+type ResearchesPageProps = {
+  page: number;
+  search?: string | undefined;
+};
+
+export default function ResearchesPage({ page, search }: ResearchesPageProps) {
   return (
     <Page>
+      <PageBreadcrumb items={[{ page: "Researches" }]} />
+
       <PageHeader>
         <div className="space-y-1">
           <PageTitle>Research</PageTitle>
@@ -28,7 +36,7 @@ export default function ResearchPage() {
 
       <PageContent>
         <Suspense fallback={<ResearchListSkeleton />}>
-          <ResearchList />
+          <ResearchList page={page} search={search} />
         </Suspense>
       </PageContent>
     </Page>

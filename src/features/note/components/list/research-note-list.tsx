@@ -1,11 +1,19 @@
 import { Dot } from "lucide-react";
 import { notFound } from "next/navigation";
 
-import { Page, PageActions, PageContent, PageHeader, PageTitle } from "@/components/core/page";
+import {
+  Page,
+  PageActions,
+  PageBreadcrumb,
+  PageContent,
+  PageHeader,
+  PageTitle,
+} from "@/components/core/page";
 import { Card, CardContent } from "@/coss/ui/card";
 import { researchIdSchema } from "@/features/research/schemas";
 import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
+import appRoutes from "@/shared/app-routes";
 
 import CreateNoteDialog from "../create/create-note-dialog";
 
@@ -13,7 +21,7 @@ import NoteActions from "./note-action";
 import NoteEmpty from "./note-empty";
 
 type NoteListProps = {
-  params: PageProps<"/research/[researchId]/notes">["params"];
+  params: PageProps<"/researches/[researchId]/notes">["params"];
 };
 
 export default async function ResearchNoteList({ params }: NoteListProps) {
@@ -28,6 +36,19 @@ export default async function ResearchNoteList({ params }: NoteListProps) {
 
   return (
     <Page>
+      <PageBreadcrumb
+        items={[
+          { label: "Researches", href: appRoutes.research.list },
+          {
+            label: research.title,
+            href: appRoutes.research.overview(research.id),
+          },
+          {
+            page: "Notes",
+          },
+        ]}
+      />
+
       <PageHeader className="flex-row justify-between items-center">
         <PageTitle>Notes ({research._count.notes})</PageTitle>
 

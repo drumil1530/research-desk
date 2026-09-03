@@ -19,6 +19,12 @@ export type SourceGetByIdInput = {
   userId: string;
 };
 
+export type SourceGetMetadataByIdInput = {
+  id: string;
+  researchId: string;
+  userId: string;
+};
+
 export type SourceUpdateInput = {
   id: string;
   researchId: string;

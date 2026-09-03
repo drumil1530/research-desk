@@ -5,6 +5,7 @@ import z from "zod";
 import {
   Page,
   PageActions,
+  PageBreadcrumb,
   PageContent,
   PageDescription,
   PageHeader,
@@ -19,11 +20,12 @@ import { sourceTypes } from "@/features/source/contants";
 import { sourceIdSchema } from "@/features/source/schemas";
 import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
+import appRoutes from "@/shared/app-routes";
 
 import SourceActions from "../list/source-action";
 
 type SourceDetailProps = {
-  params: PageProps<"/research/[researchId]/sources/[sourceId]">["params"];
+  params: PageProps<"/researches/[researchId]/sources/[sourceId]">["params"];
 };
 
 export default async function SourceDetail({ params }: SourceDetailProps) {
@@ -38,16 +40,33 @@ export default async function SourceDetail({ params }: SourceDetailProps) {
 
   if (!result.success) notFound();
 
-  const source = await service.source.getById({
+  const response = await service.source.getById({
     id: result.data.sourceId,
     researchId: result.data.researchId,
     userId,
   });
 
-  if (!source) notFound();
+  if (!response) notFound();
+
+  const { research, notes, ...source } = response;
 
   return (
     <Page>
+      <PageBreadcrumb
+        items={[
+          { label: "Researches", href: appRoutes.research.list },
+          {
+            label: research.title,
+            href: appRoutes.research.overview(research.id),
+          },
+          {
+            label: "Sources",
+            href: appRoutes.research.sources.list(research.id),
+          },
+          { page: source.title },
+        ]}
+      />
+
       <PageHeader className="flex-row gap-2 items-start">
         <div className="flex flex-wrap items-center justify-between gap-2 grow">
           <PageTitle>{source.title}</PageTitle>
@@ -80,17 +99,17 @@ export default async function SourceDetail({ params }: SourceDetailProps) {
 
       <PageContent>
         <CardFrame>
-          <CardFrameHeader className="p-4 md:py-4">
+          <CardFrameHeader className="**:data-[slot='dialog-trigger']:h-7.25 has-[&_[data-slot='dialog-trigger']]:py-3">
             <CardFrameTitle>
               Notes {source._count.notes > 0 && `(${source._count.notes})`}
             </CardFrameTitle>
 
             <CardFrameAction>
-              <CreateNoteDialog researchId={source.researchId} sourceId={source.id} />
+              <CreateNoteDialog researchId={research.id} sourceId={source.id} />
             </CardFrameAction>
           </CardFrameHeader>
 
-          <SourceNoteList notes={source.notes} researchId={source.researchId} />
+          <SourceNoteList notes={notes} researchId={research.id} />
         </CardFrame>
       </PageContent>
     </Page>

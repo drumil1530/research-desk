@@ -1,3 +1,8 @@
+import { notFound, redirect } from "next/navigation";
+
+import type { ResearchWhereInput } from "@/generated/prisma/models";
+import appRoutes from "@/shared/app-routes";
+
 import { db } from "../db";
 import type {
   ResearchGetByIdInput,
@@ -8,6 +13,7 @@ import type {
   ResearchOwnedByInput,
   ResearchNoteListInput,
   ResearchSourceListInput,
+  ResearchGetMetadataByIdInput as ResearchGetTitleByIdInput,
 } from "../types/research";
 
 async function create(input: ResearchCreateInput) {
@@ -64,18 +70,7 @@ async function getById(input: ResearchGetByIdInput) {
   });
 }
 
-async function list(input: ResearchListInput) {
-  const { userId } = input;
-
-  return db.research.findMany({
-    where: {
-      userId,
-    },
-    orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
-  });
-}
-
-async function sourceList(input: ResearchSourceListInput) {
+async function getTitleById(input: ResearchGetTitleByIdInput) {
   const { id, userId } = input;
 
   return db.research.findUnique({
@@ -86,13 +81,88 @@ async function sourceList(input: ResearchSourceListInput) {
       },
     },
     select: {
+      title: true,
+      description: true,
+    },
+  });
+}
+
+async function list(input: ResearchListInput) {
+  const { userId, page, search } = input;
+
+  const where = {
+    userId,
+    ...(search
+      ? {
+          OR: [
+            { title: { contains: search, mode: "insensitive" } },
+            { description: { contains: search, mode: "insensitive" } },
+          ],
+        }
+      : {}),
+  } satisfies ResearchWhereInput;
+
+  const pageSize = 10;
+  const total = await db.research.count({
+    where,
+  });
+
+  const totalPages = Math.ceil(total / pageSize);
+
+  if (totalPages === 0) {
+    if (page !== 1) redirect(appRoutes.research.list);
+  } else if (page < 1 || page > totalPages) {
+    notFound();
+  }
+
+  const researches = await db.research.findMany({
+    where,
+    take: pageSize,
+    skip: (page - 1) * pageSize,
+    orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
+  });
+
+  return {
+    researches,
+    total,
+    totalPages,
+  };
+}
+
+async function sourceList(input: ResearchSourceListInput) {
+  const { id, userId, page, search } = input;
+
+  const pageSize = 10;
+
+  const research = await db.research.findUnique({
+    where: {
+      id_userId: {
+        id,
+        userId,
+      },
+    },
+    select: {
       id: true,
+      title: true,
+
       _count: {
         select: {
           sources: true,
         },
       },
       sources: {
+        where: {
+          ...(search
+            ? {
+                OR: [
+                  { title: { contains: search, mode: "insensitive" } },
+                  { description: { contains: search, mode: "insensitive" } },
+                ],
+              }
+            : {}),
+        },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
         include: {
           _count: {
             select: {
@@ -108,6 +178,23 @@ async function sourceList(input: ResearchSourceListInput) {
       },
     },
   });
+
+  if (!research) return null;
+
+  const totalSources = research._count.sources;
+  const totalSourcePages = Math.ceil(totalSources / pageSize);
+
+  if (totalSourcePages === 0) {
+    if (page !== 1) redirect(appRoutes.research.sources.list(id));
+  } else if (page < 1 || page > totalSourcePages) {
+    notFound();
+  }
+
+  return {
+    ...research,
+    totalSources,
+    totalSourcePages,
+  };
 }
 
 async function noteList(input: ResearchNoteListInput) {
@@ -122,6 +209,8 @@ async function noteList(input: ResearchNoteListInput) {
     },
     select: {
       id: true,
+      title: true,
+
       _count: {
         select: {
           notes: {
@@ -189,6 +278,7 @@ async function isOwnedBy(input: ResearchOwnedByInput) {
 export const research = {
   create,
   getById,
+  getTitleById,
   list,
   noteList,
   sourceList,

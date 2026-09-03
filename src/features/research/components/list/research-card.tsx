@@ -4,22 +4,27 @@ import Link from "next/link";
 import { Badge } from "@/coss/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/coss/ui/card";
 import { type service } from "@/infrastructure/database";
+import appRoutes from "@/shared/app-routes";
 
 type ResearchCardProps = {
-  research: Awaited<ReturnType<typeof service.research.list>>[number];
+  research: Awaited<ReturnType<typeof service.research.list>>["researches"][number];
 };
 
 export default function ResearchCard({ research }: ResearchCardProps) {
   return (
     <Card
       className="transition-colors hover:bg-muted/50"
-      render={<Link href={`/research/${research.id}`} />}
+      render={<Link href={appRoutes.research.overview(research.id)} />}
     >
       <CardHeader>
-        <CardTitle className="text-base sm:text-lg">{research.title}</CardTitle>
+        <CardTitle className="text-base sm:text-lg line-clamp-2 sm:line-clamp-1">
+          {research.title}
+        </CardTitle>
 
         {research.description && (
-          <CardDescription className="line-clamp-2">{research.description}</CardDescription>
+          <CardDescription className="line-clamp-2 sm:line-clamp-1">
+            {research.description}
+          </CardDescription>
         )}
 
         <div className="flex items-center justify-between gap-2 mt-2">

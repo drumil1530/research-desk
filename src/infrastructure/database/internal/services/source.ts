@@ -6,6 +6,7 @@ import type {
   SourceDeleteInput,
   SourceBelongsToResearchInput,
   SourceGetByIdInput,
+  SourceGetMetadataByIdInput as SourceGetTitleByIdInput,
 } from "../types/source";
 
 async function create(input: SourceCreateInput) {
@@ -53,6 +54,12 @@ async function getById(input: SourceGetByIdInput) {
     },
 
     include: {
+      research: {
+        select: {
+          id: true,
+          title: true,
+        },
+      },
       notes: {
         select: {
           id: true,
@@ -63,6 +70,25 @@ async function getById(input: SourceGetByIdInput) {
       _count: {
         select: { notes: true },
       },
+    },
+  });
+}
+
+async function getTitleById(input: SourceGetTitleByIdInput) {
+  const { id, researchId, userId } = input;
+
+  return db.source.findUnique({
+    where: {
+      id_researchId: {
+        id,
+        researchId,
+      },
+      research: {
+        userId,
+      },
+    },
+    select: {
+      title: true,
     },
   });
 }
@@ -113,6 +139,7 @@ export const source = {
   create,
   list,
   getById,
+  getTitleById,
   update,
   delete: remove,
   belongsToResearch,

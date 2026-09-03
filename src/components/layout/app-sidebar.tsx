@@ -13,6 +13,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/coss/ui/sidebar";
+import appRoutes from "@/shared/app-routes";
 
 export default function AppSidebar() {
   return (
@@ -20,7 +21,11 @@ export default function AppSidebar() {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton render={<Link href="/research" />} size="lg" className="text-xl">
+            <SidebarMenuButton
+              render={<Link href={appRoutes.research.list} />}
+              size="lg"
+              className="text-xl"
+            >
               <BookOpen className="size-5" />
               <span>Research Desk</span>
             </SidebarMenuButton>
@@ -33,7 +38,7 @@ export default function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton render={<Link href="/research" />} isActive>
+                <SidebarMenuButton render={<Link href={appRoutes.research.list} />} isActive>
                   <BookOpen />
                   <span>Research</span>
                 </SidebarMenuButton>

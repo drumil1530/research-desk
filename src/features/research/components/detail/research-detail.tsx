@@ -3,7 +3,14 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Page, PageHeader, PageContent, PageTitle, PageActions } from "@/components/core/page";
+import {
+  Page,
+  PageHeader,
+  PageContent,
+  PageTitle,
+  PageActions,
+  PageBreadcrumb,
+} from "@/components/core/page";
 import { Badge } from "@/coss/ui/badge";
 import {
   Card,
@@ -29,7 +36,7 @@ import NoteListPreview from "./notes-list-preview";
 import SourceListPreview from "./source-list-preview";
 
 type ResearchDetailProps = {
-  params: PageProps<"/research/[researchId]">["params"];
+  params: PageProps<"/researches/[researchId]">["params"];
 };
 
 export default async function ResearchDetail({ params }: ResearchDetailProps) {
@@ -47,6 +54,9 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
 
   return (
     <Page>
+      <PageBreadcrumb
+        items={[{ label: "Research", href: appRoutes.research.list }, { page: research.title }]}
+      />
       <PageHeader>
         <PageTitle>{research.title}</PageTitle>
 
