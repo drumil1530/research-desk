@@ -6,12 +6,12 @@ import { type service } from "@/infrastructure/database";
 import NoteActions from "./note-action";
 import NoteEmpty from "./note-empty";
 
-type NoteListProps = {
+type SourceNoteListProps = {
   researchId: string;
   notes: NonNullable<Awaited<ReturnType<typeof service.source.getById>>>["notes"];
 };
 
-export default async function SourceNoteList({ researchId, notes }: NoteListProps) {
+export default async function SourceNoteList({ researchId, notes }: SourceNoteListProps) {
   return notes.length === 0 ? (
     <Card>
       <NoteEmpty />

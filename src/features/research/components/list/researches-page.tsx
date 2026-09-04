@@ -14,11 +14,10 @@ import ResearchList from "@/features/research/components/list/research-list";
 import ResearchListSkeleton from "@/features/research/components/list/research-list-skeleton";
 
 type ResearchesPageProps = {
-  page: number;
-  search?: string | undefined;
+  pageProps: PageProps<"/researches"> | PageProps<"/researches/page/[number]">;
 };
 
-export default function ResearchesPage({ page, search }: ResearchesPageProps) {
+export default function ResearchesPage({ pageProps }: ResearchesPageProps) {
   return (
     <Page>
       <PageBreadcrumb items={[{ page: "Researches" }]} />
@@ -36,7 +35,7 @@ export default function ResearchesPage({ page, search }: ResearchesPageProps) {
 
       <PageContent>
         <Suspense fallback={<ResearchListSkeleton />}>
-          <ResearchList page={page} search={search} />
+          <ResearchList pageProps={pageProps} />
         </Suspense>
       </PageContent>
     </Page>

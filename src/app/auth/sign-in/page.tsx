@@ -11,7 +11,7 @@ import {
   CardPanel,
 } from "@/coss/ui/card";
 import SignInForm from "@/features/auth/components/sign-in-form";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 export const metadata: Metadata = {
   title: "Sign In",
@@ -35,7 +35,7 @@ export default function SignInPage() {
       <CardFrameFooter>
         <p className="text-sm text-muted-foreground">
           {"Don't have an account?"}{" "}
-          <Link href={appRoutes.auth.signUp} className="hover:underline underline-offset-4">
+          <Link href={ROUTES.auth.signUp} className="hover:underline underline-offset-4">
             Sign up
           </Link>
         </p>

@@ -16,7 +16,7 @@ import {
 } from "@/coss/ui/alert-dialog";
 import { Button } from "@/coss/ui/button";
 import deleteResearch from "@/features/research/actions/delete-research";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 type DeleteResearchDialogProps = {
   id: string;
@@ -37,7 +37,7 @@ export default function DeleteResearchDialog({ id }: DeleteResearchDialogProps) 
       return;
     }
 
-    router.push(appRoutes.research.list);
+    router.push(ROUTES.researchList);
   }
 
   return (

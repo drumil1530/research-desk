@@ -1,4 +1,4 @@
-import { Fragment, type ComponentProps, type PropsWithChildren } from "react";
+import { Fragment, type ReactNode, type ComponentProps, type PropsWithChildren } from "react";
 
 import {
   Breadcrumb,
@@ -22,12 +22,12 @@ function Page({ children, className, ...props }: PropsWithChildren<ComponentProp
 }
 
 type BreadcrumbItem = {
-  label: string;
-  href: string;
+  label: ReactNode;
+  href?: string;
 };
 
 type PageBreadcrumbProps = {
-  items: [...BreadcrumbItem[], { page: string }];
+  items: [...BreadcrumbItem[], { page: ReactNode }];
 } & ComponentProps<typeof Breadcrumb>;
 
 function PageBreadcrumb({ items, ...props }: PageBreadcrumbProps) {
@@ -37,18 +37,22 @@ function PageBreadcrumb({ items, ...props }: PageBreadcrumbProps) {
         {items.map((item, index) => {
           if ("page" in item) {
             return (
-              <BreadcrumbItem key={item.page}>
+              <BreadcrumbItem key={`page-${index}`}>
                 <BreadcrumbPage className="wrap-break-word">{item.page}</BreadcrumbPage>
               </BreadcrumbItem>
             );
           }
 
           return (
-            <Fragment key={`${item.label}-${index}`}>
+            <Fragment key={`label-${index}`}>
               <BreadcrumbItem>
-                <BreadcrumbLink href={item.href} className="wrap-break-word">
-                  {item.label}
-                </BreadcrumbLink>
+                {item.href ? (
+                  <BreadcrumbLink href={item.href} className="wrap-break-word">
+                    {item.label}
+                  </BreadcrumbLink>
+                ) : (
+                  item.label
+                )}
               </BreadcrumbItem>
               <BreadcrumbSeparator />
             </Fragment>

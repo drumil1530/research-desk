@@ -2,11 +2,6 @@
 
 > A focused research workspace for turning a question into an organized collection of sources, notes, and conclusions.
 
-**Project type:** Portfolio application
-**Start date:** August 28, 2026
-**Deadline:** September 14, 2026
-**Primary objective:** Ship a complete, deployed application that demonstrates the ability to build a real full-stack product.
-
 ## Overview
 
 Research Desk helps users investigate a question or subject by collecting relevant sources, writing notes while researching, and recording their final understanding.
@@ -23,11 +18,12 @@ Instead of simply collecting bookmarks, Research Desk is designed to represent t
 - Organize sources by type
 - Write and edit research notes
 - Optionally associate notes with their source
-- Search research
+- Search research and sources
 - Filter research by status
 - Write a final research summary
 - Mark research as completed
 - Authentication and user-owned data
+- Responsive interface with loading, empty, and error states
 
 ## Tech Stack
 
@@ -64,15 +60,15 @@ A **Source** represents a resource used during that research, such as documentat
 
 A **Note** records something learned or observed during the investigation and may optionally reference the source it came from.
 
-The final **Summary** records the user's understanding once the research is complete.
+The **Summary** records the user's final understanding once the research is complete.
 
 ## Development
 
-Research Desk is intentionally scoped as a smaller project focused on shipping a complete product rather than building a sophisticated architecture.
+Research Desk is intentionally scoped as a small full-stack application focused on shipping a complete product rather than building a sophisticated architecture.
 
 The application uses Server Actions for mutations and server-side behavior where appropriate. User-owned resources are scoped to the authenticated user, and input validation is handled with Zod.
 
-The project deliberately avoids unnecessary abstractions and infrastructure that are not required by the current product.
+The project deliberately avoids unnecessary abstractions and infrastructure that are not required by the product.
 
 ## Getting Started
 
@@ -114,9 +110,17 @@ The application will be available at `http://localhost:3000`.
 
 The application requires configuration for the PostgreSQL database and authentication.
 
-Create a `.env` file in the project root and copy `.env.example` into it.
+Create a `.env` file in the project root by copying `.env.example`:
 
-Replace the placeholders with your local PostgreSQL credentials, authentication secret, and development server port.
+```bash
+cp .env.example .env
+```
+
+Configure the required PostgreSQL credentials, authentication secret, and application settings.
+
+## Screenshots
+
+Screenshots will be added once the interface is finalized.
 
 ## Scope
 
@@ -136,15 +140,13 @@ The V1 scope does not include:
 - File storage
 - Social features
 
-Additional ideas may be explored after V1, but they are not part of the initial release.
+Additional ideas may be explored in the future, but they are not part of the current product.
 
 ## Project Status
 
-Research Desk is currently under active development.
+Research Desk is a portfolio application built to demonstrate the ability to take a full-stack product from concept to a complete, deployed application.
 
-The V1 target is **September 14, 2026**.
-
-The primary goal is to deliver a complete, usable, deployed application within the defined scope.
+The project is currently under active development, with the V1 release focused on completing the defined workflow, polishing the interface, and deploying the application.
 
 ## License
 

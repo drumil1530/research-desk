@@ -1,23 +1,33 @@
 "use client";
 
+import Link from "next/link";
 import { type PropsWithChildren } from "react";
 
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/coss/ui/sidebar";
+import { type authService } from "@/infrastructure/auth";
+import ROUTES from "@/shared/routes";
 
-import AppSidebar from "./app-sidebar";
+import { Logo } from "../icons/logo";
 
-export default function AppShell({ children }: PropsWithChildren) {
+import { NavUser } from "./nav-user";
+
+type AppShellProps = PropsWithChildren<{
+  user: Awaited<ReturnType<typeof authService.getUserOrRedirect>>;
+}>;
+
+export default function AppShell({ children, user }: AppShellProps) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <div className="flex min-h-screen flex-col">
+      <header className="flex h-14 shrink-0 items-center border-b px-4">
+        <Link href={ROUTES.researchList} className="flex items-center gap-2 font-semibold">
+          <Logo />
+        </Link>
 
-      <SidebarInset>
-        <header className="flex h-12 shrink-0 items-center gap-2 p-4">
-          <SidebarTrigger className="-ms-2" />
-        </header>
+        <div className="ms-auto">
+          <NavUser user={user} />
+        </div>
+      </header>
 
-        <div className="flex min-h-0 flex-1 flex-col">{children}</div>
-      </SidebarInset>
-    </SidebarProvider>
+      <main className="min-h-0 flex-1">{children}</main>
+    </div>
   );
 }

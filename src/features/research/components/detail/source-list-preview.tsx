@@ -1,17 +1,17 @@
 import Link from "next/link";
 
 import { Badge } from "@/coss/ui/badge";
-import SourceEmpty from "@/features/source/components/list/source-empty";
+import { SourceEmpty } from "@/features/source/components/list/source-empty";
 import { sourceTypes } from "@/features/source/contants";
 import { type service } from "@/infrastructure/database";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 type SourceListPreviewProps = {
   researchId: string;
   sources: NonNullable<Awaited<ReturnType<typeof service.research.getById>>>["sources"];
 };
 
-export default async function SourceListPreview({ researchId, sources }: SourceListPreviewProps) {
+export default function SourceListPreview({ researchId, sources }: SourceListPreviewProps) {
   if (sources.length === 0) return <SourceEmpty />;
 
   return (
@@ -20,7 +20,7 @@ export default async function SourceListPreview({ researchId, sources }: SourceL
         <div key={source.id} className="flex justify-between items-center gap-2">
           <h3 className="min-w-0 truncate text-sm font-medium">
             <Link
-              href={appRoutes.research.sources.details(researchId, source.id)}
+              href={ROUTES.research(researchId).source(source.id)}
               className="hover:underline underline-offset-4"
             >
               {source.title}

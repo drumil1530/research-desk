@@ -1,26 +1,20 @@
 import { type Metadata } from "next";
+import { Suspense } from "react";
 
 import SourceList from "@/features/source/components/list/source-list";
+import SourceListSkeleton from "@/features/source/components/list/source-list-skeleton";
 
 export const metadata: Metadata = {
   title: "Sources",
   description: "View and manage sources for this research.",
 };
 
-export const instant = false;
-
-export default async function SourcePage({
-  params,
-  searchParams,
-}: PageProps<"/researches/[researchId]/sources/page/[number]">) {
-  const { researchId, number } = await params;
-  const { search } = await searchParams;
-
+export default async function ResearchSourcesPage(
+  pageProps: PageProps<"/researches/[researchId]/sources/page/[number]">,
+) {
   return (
-    <SourceList
-      page={Number(number)}
-      researchId={researchId}
-      search={search?.toString().trim().toLowerCase() || undefined}
-    />
+    <Suspense fallback={<SourceListSkeleton />}>
+      <SourceList pageProps={pageProps} />
+    </Suspense>
   );
 }

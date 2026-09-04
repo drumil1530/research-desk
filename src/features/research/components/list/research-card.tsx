@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Badge } from "@/coss/ui/badge";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/coss/ui/card";
 import { type service } from "@/infrastructure/database";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 type ResearchCardProps = {
   research: Awaited<ReturnType<typeof service.research.list>>["researches"][number];
@@ -14,7 +14,7 @@ export default function ResearchCard({ research }: ResearchCardProps) {
   return (
     <Card
       className="transition-colors hover:bg-muted/50"
-      render={<Link href={appRoutes.research.overview(research.id)} />}
+      render={<Link href={ROUTES.research(research.id).detail} />}
     >
       <CardHeader>
         <CardTitle className="text-base sm:text-lg line-clamp-2 sm:line-clamp-1">

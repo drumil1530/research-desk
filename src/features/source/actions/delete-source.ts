@@ -1,10 +1,12 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import z from "zod";
 
 import { Prisma } from "@/generated/prisma/client";
 import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
+import ROUTES from "@/shared/routes";
 import { type Result } from "@/shared/types/result";
 
 import { type DeleteSourceInput, deleteSourceSchema } from "../schemas";
@@ -45,15 +47,12 @@ export default async function deleteSource(input: DeleteSourceInput): ActionResu
   }
 
   try {
-    const response = await service.source.delete({
+    await service.source.delete({
       id,
       researchId,
     });
 
-    return {
-      success: true,
-      data: response,
-    };
+    redirect(ROUTES.research(researchId).sources);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
       return {

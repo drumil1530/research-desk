@@ -6,7 +6,6 @@ import type * as React from "react";
 
 import { cn } from "@/coss/utils";
 
-
 export const MenuCreateHandle: typeof MenuPrimitive.createHandle = MenuPrimitive.createHandle;
 
 export const Menu: typeof MenuPrimitive.Root = MenuPrimitive.Root;

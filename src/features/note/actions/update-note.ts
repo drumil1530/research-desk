@@ -26,7 +26,7 @@ export default async function updateNote(input: UpdateNoteInput): ActionResult {
     };
   }
 
-  const { id, researchId, content, sourceId } = result.data;
+  const { id, researchId, content } = result.data;
   const { id: userId } = await authService.getUserOrRedirect();
 
   const isOwner = await service.research.isOwnedBy({
@@ -44,27 +44,9 @@ export default async function updateNote(input: UpdateNoteInput): ActionResult {
     };
   }
 
-  if (sourceId) {
-    const sourceBelongsToResearch = await service.source.belongsToResearch({
-      id: sourceId,
-      researchId,
-    });
-
-    if (!sourceBelongsToResearch) {
-      return {
-        success: false,
-        error: {
-          type: "notFound",
-          message: "Requested Source not found.",
-        },
-      };
-    }
-  }
-
   const response = await service.note.update({
     id,
     researchId,
-    sourceId,
     content,
   });
 

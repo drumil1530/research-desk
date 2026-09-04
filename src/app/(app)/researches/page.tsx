@@ -7,11 +7,6 @@ export const metadata: Metadata = {
   description: "Explore and manage your research.",
 };
 
-export const instant = false;
-
-export default async function ResearchPage({
-  searchParams,
-}: PageProps<"/researches/[researchId]">) {
-  const { search } = await searchParams;
-  return <ResearchesPage page={1} search={search?.toString().trim().toLowerCase() || undefined} />;
+export default function ResearchPage(pageProps: PageProps<"/researches">) {
+  return <ResearchesPage pageProps={pageProps} />;
 }

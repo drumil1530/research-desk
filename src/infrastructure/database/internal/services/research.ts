@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import type { ResearchWhereInput } from "@/generated/prisma/models";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 import { db } from "../db";
 import type {
@@ -110,7 +110,7 @@ async function list(input: ResearchListInput) {
   const totalPages = Math.ceil(total / pageSize);
 
   if (totalPages === 0) {
-    if (page !== 1) redirect(appRoutes.research.list);
+    if (page !== 1) redirect(ROUTES.researchList);
   } else if (page < 1 || page > totalPages) {
     notFound();
   }
@@ -185,7 +185,7 @@ async function sourceList(input: ResearchSourceListInput) {
   const totalSourcePages = Math.ceil(totalSources / pageSize);
 
   if (totalSourcePages === 0) {
-    if (page !== 1) redirect(appRoutes.research.sources.list(id));
+    if (page !== 1) redirect(ROUTES.research(id).sources);
   } else if (page < 1 || page > totalSourcePages) {
     notFound();
   }

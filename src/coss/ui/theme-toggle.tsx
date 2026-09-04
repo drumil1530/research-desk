@@ -23,6 +23,7 @@ export default function ThemeToggle() {
         if (value) setTheme(value);
       }}
       disabled={!mounted}
+      className="w-full"
     >
       <Tooltip>
         <TooltipTrigger
@@ -30,6 +31,7 @@ export default function ThemeToggle() {
             <ToggleGroupItem
               suppressHydrationWarning
               value="light"
+              size="sm"
               aria-label="Light theme"
               className="flex-1"
             >
@@ -46,6 +48,7 @@ export default function ThemeToggle() {
             <ToggleGroupItem
               suppressHydrationWarning
               value="dark"
+              size="sm"
               aria-label="Dark theme"
               className="flex-1"
             >
@@ -62,6 +65,7 @@ export default function ThemeToggle() {
             <ToggleGroupItem
               suppressHydrationWarning
               value="system"
+              size="sm"
               aria-label="System theme"
               className="flex-1"
             >

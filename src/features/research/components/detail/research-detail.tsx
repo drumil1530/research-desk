@@ -26,7 +26,7 @@ import { researchIdSchema } from "@/features/research/schemas";
 import CreateSourceDialog from "@/features/source/components/create/create-source-dialog";
 import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 import CompleteResearchDialog from "../complete/complete-research-dialog";
 import DeleteResearchDialog from "../delete/delete-research-dialog";
@@ -55,7 +55,7 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
   return (
     <Page>
       <PageBreadcrumb
-        items={[{ label: "Research", href: appRoutes.research.list }, { page: research.title }]}
+        items={[{ label: "Researches", href: ROUTES.researchList }, { page: research.title }]}
       />
       <PageHeader>
         <PageTitle>{research.title}</PageTitle>
@@ -97,7 +97,7 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
 
             <CardFrameAction>
               {sourcesCount > 0 ? (
-                <ViewAllLink link={appRoutes.research.sources.list(research.id)} />
+                <ViewAllLink link={ROUTES.research(research.id).sources} />
               ) : (
                 <CreateSourceDialog researchId={research.id} />
               )}
@@ -117,7 +117,7 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
 
             <CardFrameAction>
               {notesCount > 0 ? (
-                <ViewAllLink link={appRoutes.research.notes(research.id)} />
+                <ViewAllLink link={ROUTES.research(research.id).notes} />
               ) : (
                 <CreateNoteDialog researchId={research.id} sourceId={null} />
               )}

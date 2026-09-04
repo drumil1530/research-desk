@@ -2,7 +2,7 @@ import "server-only";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 import { auth } from "./auth";
 import { type SignInInput, type SignUpInput } from "./types";
@@ -21,7 +21,7 @@ async function getUserOrRedirect() {
     headers: await headers(),
   });
 
-  if (!session) redirect(appRoutes.auth.signIn);
+  if (!session) redirect(ROUTES.auth.signIn);
   else return session.user;
 }
 

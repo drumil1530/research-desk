@@ -2,12 +2,13 @@ import { redirect } from "next/navigation";
 
 import AppShell from "@/components/layout/app-shell";
 import { authService } from "@/infrastructure/auth";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 export const instant = false;
 
 export default async function AppLayout({ children }: LayoutProps<"/">) {
-  if (!(await authService.getCurrentUser())) redirect(appRoutes.auth.signIn);
+  const user = await authService.getCurrentUser();
+  if (!user) redirect(ROUTES.auth.signIn);
 
-  return <AppShell>{children}</AppShell>;
+  return <AppShell user={user}>{children}</AppShell>;
 }

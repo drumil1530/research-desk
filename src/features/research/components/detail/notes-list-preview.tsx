@@ -9,7 +9,7 @@ type NoteListPreviewProps = {
   }[];
 };
 
-export default async function NoteListPreview({ notes }: NoteListPreviewProps) {
+export default function NoteListPreview({ notes }: NoteListPreviewProps) {
   if (notes.length === 0) return <NoteEmpty />;
 
   return (

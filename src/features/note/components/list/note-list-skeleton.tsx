@@ -1,26 +1,56 @@
-import { Card, CardAction, CardHeader } from "@/coss/ui/card";
+import { Dot } from "lucide-react";
+
+import { Page, PageBreadcrumb, PageContent, PageHeader } from "@/components/core/page";
+import { Button } from "@/coss/ui/button";
+import { Card, CardContent } from "@/coss/ui/card";
 import { Skeleton } from "@/coss/ui/skeleton";
+import ROUTES from "@/shared/routes";
 
-export default function SourceListSkeleton() {
+export default function ResearchNotesSkeleton() {
   return (
-    <div className="space-y-0.5 p-0.5">
-      {Array.from({ length: 5 }).map((_, index) => (
-        <Card key={index}>
-          <CardHeader>
-            <Skeleton className="h-6 w-3/5 max-w-lg" />
+    <Page>
+      <PageBreadcrumb
+        items={[
+          { label: "Researches", href: ROUTES.researchList },
+          { label: <Skeleton className="h-4 w-32" /> },
+          {
+            page: (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="-mx-1.25 -my-1.5 sm:-ms-2 text-sm h-6 px-1 sm:px-2"
+              >
+                Notes
+              </Button>
+            ),
+          },
+        ]}
+      />
 
-            <div className="mt-1 space-y-1">
-              <Skeleton className="h-4 w-full max-w-2xl" />
-              <Skeleton className="h-4 w-4/5 max-w-xl" />
-            </div>
+      <PageHeader className="flex-row items-center justify-between">
+        <Skeleton className="h-7 w-28" />
 
-            <CardAction className="flex items-center gap-2">
-              <Skeleton className="h-4.5 w-18 rounded-sm" />
-              <Skeleton className="h-8 w-8" />
-            </CardAction>
-          </CardHeader>
+        <Skeleton className="h-8 w-17.5 rounded-lg" />
+      </PageHeader>
+
+      <PageContent>
+        <Card>
+          <CardContent className="p-4 md:py-4">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="flex gap-2 py-3 -ms-2">
+                <Dot className="size-6 shrink-0 animate-pulse" />
+
+                <div className="flex min-w-0 flex-1 mt-1 flex-col gap-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-4/5" />
+                </div>
+
+                <Skeleton className="size-7 rounded-lg shrink-0" />
+              </div>
+            ))}
+          </CardContent>
         </Card>
-      ))}
-    </div>
+      </PageContent>
+    </Page>
   );
 }

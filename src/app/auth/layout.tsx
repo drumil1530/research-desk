@@ -2,12 +2,12 @@ import { redirect } from "next/navigation";
 
 import { Logo } from "@/components/icons/logo";
 import { authService } from "@/infrastructure/auth";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 export const instant = false;
 
 export default async function AuthLayout({ children }: LayoutProps<"/auth">) {
-  if (await authService.getCurrentUser()) redirect(appRoutes.research.list);
+  if (await authService.getCurrentUser()) redirect(ROUTES.researchList);
 
   return (
     <main className="flex min-h-svh flex-col">

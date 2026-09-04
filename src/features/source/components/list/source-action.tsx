@@ -23,16 +23,7 @@ export default function SourceActions({ source }: SourceActionsProps) {
   return (
     <>
       <Menu>
-        <MenuTrigger
-          render={
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              aria-label="Source actions"
-              className="-mr-1.5"
-            />
-          }
-        >
+        <MenuTrigger render={<Button variant="ghost" size="icon-sm" aria-label="Source actions" />}>
           <MoreHorizontal />
         </MenuTrigger>
 

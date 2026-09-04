@@ -1,4 +1,5 @@
 import { Dot } from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import {
@@ -9,11 +10,13 @@ import {
   PageHeader,
   PageTitle,
 } from "@/components/core/page";
+import { Button } from "@/coss/ui/button";
 import { Card, CardContent } from "@/coss/ui/card";
+import { Menu, MenuItem, MenuPopup, MenuTrigger } from "@/coss/ui/menu";
 import { researchIdSchema } from "@/features/research/schemas";
 import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 
 import CreateNoteDialog from "../create/create-note-dialog";
 
@@ -38,13 +41,35 @@ export default async function ResearchNoteList({ params }: NoteListProps) {
     <Page>
       <PageBreadcrumb
         items={[
-          { label: "Researches", href: appRoutes.research.list },
+          { label: "Researches", href: ROUTES.researchList },
           {
             label: research.title,
-            href: appRoutes.research.overview(research.id),
+            href: ROUTES.research(research.id).detail,
           },
           {
-            page: "Notes",
+            page: (
+              <Menu>
+                <MenuTrigger
+                  render={
+                    <Button
+                      className="-mx-1.25 -my-1.5 sm:-ms-2 text-sm h-6 px-1 sm:px-2"
+                      variant="ghost"
+                      size="sm"
+                    />
+                  }
+                >
+                  Notes
+                </MenuTrigger>
+                <MenuPopup align="start">
+                  <MenuItem
+                    render={<Link href={ROUTES.research(researchId).sources} />}
+                    className="cursor-pointer text-sm"
+                  >
+                    Sources
+                  </MenuItem>
+                </MenuPopup>
+              </Menu>
+            ),
           },
         ]}
       />

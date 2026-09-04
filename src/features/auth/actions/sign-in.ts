@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import z from "zod";
 
 import { authService } from "@/infrastructure/auth";
-import appRoutes from "@/shared/app-routes";
+import ROUTES from "@/shared/routes";
 import { type Result } from "@/shared/types/result";
 
 import { type SignInInput, signInSchema } from "../schema";
@@ -40,5 +40,5 @@ export async function signIn(input: SignInInput): ActionResult {
     }
   }
 
-  redirect(appRoutes.research.list);
+  redirect(ROUTES.researchList);
 }
