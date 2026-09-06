@@ -22,8 +22,7 @@ import updateSource from "@/features/source/actions/update-source";
 import { sourceTypes } from "@/features/source/contants";
 import { updateSourceSchema, type UpdateSourceInput } from "@/features/source/schemas";
 import { type Source } from "@/generated/prisma/client";
-import { type FormErrors } from "@/shared/types/form";
-import { setFormErrors } from "@/shared/utils/form";
+import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 type UpdateSourceFormProps = {
   source: Source;
@@ -34,7 +33,7 @@ export default function UpdateSourceForm({ source, onSuccess }: UpdateSourceForm
   const form = useForm<UpdateSourceInput>({
     resolver: zodResolver(updateSourceSchema),
     defaultValues: {
-      id: source.id,
+      sourceId: source.id,
       researchId: source.researchId,
       title: source.title,
       url: source.url,
@@ -42,10 +41,6 @@ export default function UpdateSourceForm({ source, onSuccess }: UpdateSourceForm
       type: source.type,
     },
   });
-
-  const errors: FormErrors = Object.fromEntries(
-    Object.entries(form.formState.errors).map(([name, error]) => [name, error?.message ?? ""]),
-  );
 
   async function onSubmit(data: UpdateSourceInput) {
     form.clearErrors("form");
@@ -73,7 +68,11 @@ export default function UpdateSourceForm({ source, onSuccess }: UpdateSourceForm
   }
 
   return (
-    <Form className="contents" errors={errors} onSubmit={form.handleSubmit(onSubmit)}>
+    <Form
+      className="contents"
+      errors={toFormErrors(form.formState.errors)}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <DialogPanel className="grid gap-4">
         <FormTextField
           {...form.register("title")}

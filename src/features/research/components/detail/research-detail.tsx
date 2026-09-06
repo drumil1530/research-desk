@@ -1,6 +1,4 @@
 import { formatDistanceToNow } from "date-fns";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import {
@@ -11,6 +9,7 @@ import {
   PageActions,
   PageBreadcrumb,
 } from "@/components/core/page";
+import ViewAllLink from "@/components/utility/view-all-link";
 import { Badge } from "@/coss/ui/badge";
 import {
   Card,
@@ -30,9 +29,12 @@ import ROUTES from "@/shared/routes";
 
 import CompleteResearchDialog from "../complete/complete-research-dialog";
 import DeleteResearchDialog from "../delete/delete-research-dialog";
+import ReopenResearchDialog from "../reopen/reopen-research-dialog";
 import UpdateResearchDialog from "../update/update-research-dialog";
+import UpdateResearchSummaryDialog from "../update/update-research-summary-dialog";
 
 import NoteListPreview from "./notes-list-preview";
+import { ResearchSummaryEmpty } from "./research-summary-empty";
 import SourceListPreview from "./source-list-preview";
 
 type ResearchDetailProps = {
@@ -46,7 +48,7 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
   const result = researchIdSchema.safeParse(researchId);
   if (!result.success) notFound();
 
-  const research = await service.research.getById({ id: result.data, userId });
+  const research = await service.research.getById({ researchId: result.data, userId });
   if (!research) notFound();
 
   const notesCount = research._count.notes;
@@ -62,14 +64,18 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
 
         <PageActions>
           <UpdateResearchDialog
-            id={research.id}
+            researchId={research.id}
             title={research.title}
             description={research.description}
           />
 
-          {research.status === "ACTIVE" && <CompleteResearchDialog id={research.id} />}
+          {research.status === "ACTIVE" ? (
+            <CompleteResearchDialog researchId={research.id} summary={research.summary} />
+          ) : (
+            <ReopenResearchDialog researchId={research.id} />
+          )}
 
-          <DeleteResearchDialog id={research.id} />
+          <DeleteResearchDialog researchId={research.id} />
         </PageActions>
       </PageHeader>
 
@@ -130,42 +136,38 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
         </CardFrame>
       </PageContent>
 
-      {research.status === "COMPLETED" && (
-        <PageContent>
-          <CardFrame>
-            <CardFrameHeader>
-              <CardFrameTitle className="self-start">Summary</CardFrameTitle>
-            </CardFrameHeader>
+      <PageContent>
+        <CardFrame>
+          <CardFrameHeader className="**:data-[slot='dialog-trigger']:h-7.25 has-[&_[data-slot='dialog-trigger']]:py-3">
+            <CardFrameTitle className="self-start">Summary</CardFrameTitle>
 
-            <Card>
+            <CardFrameAction>
+              <UpdateResearchSummaryDialog researchId={research.id} summary={research.summary} />
+            </CardFrameAction>
+          </CardFrameHeader>
+
+          <Card>
+            {research.summary ? (
               <CardPanel>
                 <p className="whitespace-pre-wrap">{research.summary}</p>
               </CardPanel>
-            </Card>
-            {research.completedAt && (
-              <CardFrameFooter>
-                <time
-                  className="text-muted-foreground text-sm"
-                  dateTime={research.completedAt.toISOString()}
-                >
-                  Completed {formatDistanceToNow(research.completedAt, { addSuffix: true })}
-                </time>
-              </CardFrameFooter>
+            ) : (
+              <ResearchSummaryEmpty />
             )}
-          </CardFrame>
-        </PageContent>
-      )}
-    </Page>
-  );
-}
+          </Card>
 
-function ViewAllLink({ link }: { link: string }) {
-  return (
-    <Link
-      href={link}
-      className="text-sm inline-flex items-center gap-0.5 border-b border-transparent hover:border-current transition-[border-color]"
-    >
-      View all <ArrowRight className="size-3.5" />
-    </Link>
+          {research.completedAt && (
+            <CardFrameFooter>
+              <time
+                className="text-muted-foreground text-sm"
+                dateTime={research.completedAt.toISOString()}
+              >
+                Completed {formatDistanceToNow(research.completedAt, { addSuffix: true })}
+              </time>
+            </CardFrameFooter>
+          )}
+        </CardFrame>
+      </PageContent>
+    </Page>
   );
 }

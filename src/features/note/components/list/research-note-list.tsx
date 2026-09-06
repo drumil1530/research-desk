@@ -34,7 +34,7 @@ export default async function ResearchNoteList({ params }: NoteListProps) {
   const result = researchIdSchema.safeParse(researchId);
   if (!result.success) notFound();
 
-  const research = await service.research.noteList({ id: result.data, userId });
+  const research = await service.research.noteList({ researchId: result.data, userId });
   if (!research) notFound();
 
   return (

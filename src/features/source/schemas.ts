@@ -21,6 +21,15 @@ const descriptionSchema = z
 const urlSchema = z.url({ error: "Invalid URL provided." });
 
 const typeSchema = z.enum(SourceType);
+const typeFilters = [
+  "all",
+  "article",
+  "documentation",
+  "video",
+  "repository",
+  "paper",
+  "other",
+] as const;
 
 export const createSourceSchema = z.object({
   researchId: researchIdSchema,
@@ -31,7 +40,7 @@ export const createSourceSchema = z.object({
 });
 
 export const updateSourceSchema = z.object({
-  id: sourceIdSchema,
+  sourceId: sourceIdSchema,
   researchId: researchIdSchema,
   title: titleSchema,
   description: descriptionSchema.nullable(),
@@ -40,10 +49,16 @@ export const updateSourceSchema = z.object({
 });
 
 export const deleteSourceSchema = z.object({
-  id: sourceIdSchema,
+  sourceId: sourceIdSchema,
   researchId: researchIdSchema,
+});
+
+export const listResearchSourcesFiltersSchema = z.object({
+  search: z.string().trim().toLowerCase().optional(),
+  type: z.enum(typeFilters).default("all"),
 });
 
 export type CreateSourceInput = z.infer<typeof createSourceSchema>;
 export type UpdateSourceInput = z.infer<typeof updateSourceSchema>;
 export type DeleteSourceInput = z.infer<typeof deleteSourceSchema>;
+export type ListResearchSourcesInput = z.infer<typeof listResearchSourcesFiltersSchema>;

@@ -18,14 +18,14 @@ import deleteNote from "@/features/note/actions/delete-note";
 type DeleteNoteDialogProps = {
   open: boolean;
   onOpenChange: (value: boolean) => void;
-  id: string;
+  noteId: string;
   researchId: string;
 };
 
 export default function DeleteNoteDialog({
   open,
   onOpenChange,
-  id,
+  noteId,
   researchId,
 }: DeleteNoteDialogProps) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -33,7 +33,7 @@ export default function DeleteNoteDialog({
 
   async function onDelete() {
     setIsDeleting(true);
-    const result = await deleteNote({ id, researchId });
+    const result = await deleteNote({ noteId, researchId });
 
     if (!result.success) {
       setIsDeleting(false);

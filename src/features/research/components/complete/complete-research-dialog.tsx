@@ -17,10 +17,14 @@ import {
 import CompleteResearchForm from "./complete-research-form";
 
 type CompleteResearchDialogProps = {
-  id: string;
+  researchId: string;
+  summary: string | null;
 };
 
-export default function CompleteResearchDialog({ id }: CompleteResearchDialogProps) {
+export default function CompleteResearchDialog({
+  researchId,
+  summary,
+}: CompleteResearchDialogProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -33,12 +37,16 @@ export default function CompleteResearchDialog({ id }: CompleteResearchDialogPro
 
       <DialogPopup className="sm:max-w-sm">
         <DialogHeader>
-          <DialogTitle>Complete Research</DialogTitle>
-          <DialogDescription>Write a final summary of what you learned.</DialogDescription>
+          <DialogTitle>Complete research?</DialogTitle>
+          <DialogDescription>
+            Mark this research as completed once you&apos;re satisfied with your findings and
+            summary.
+          </DialogDescription>
         </DialogHeader>
 
         <CompleteResearchForm
-          id={id}
+          researchId={researchId}
+          summary={summary}
           onSuccess={() => {
             setOpen(false);
             router.refresh();

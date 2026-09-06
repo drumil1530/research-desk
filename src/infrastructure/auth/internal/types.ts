@@ -8,3 +8,7 @@ export type SignInInput = {
   email: string;
   password: string;
 };
+
+export type UpdateUserInput = {
+  name: string;
+};

@@ -1,7 +1,8 @@
 import z from "zod";
 
-const idSchema = z.uuid({ error: "Invalid note ID.", version: "v7" });
-const researchIdSchema = z.uuid({ error: "Invalid research ID.", version: "v7" });
+import { researchIdSchema } from "../research/schemas";
+
+export const noteIdSchema = z.uuid({ error: "Invalid note ID.", version: "v7" });
 
 const contentSchema = z
   .string()
@@ -16,13 +17,13 @@ export const createNoteSchema = z.object({
 });
 
 export const updateNoteSchema = z.object({
-  id: idSchema,
+  noteId: noteIdSchema,
   researchId: researchIdSchema,
   content: contentSchema,
 });
 
 export const deleteNoteSchema = z.object({
-  id: idSchema,
+  noteId: noteIdSchema,
   researchId: researchIdSchema,
 });
 

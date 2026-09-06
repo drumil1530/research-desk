@@ -57,7 +57,7 @@ export default function SourceActions({ source }: SourceActionsProps) {
       <DeleteSourceDialog
         open={deleteOpen}
         onOpenChange={setDeleteOpen}
-        id={source.id}
+        sourceId={source.id}
         researchId={source.researchId}
       />
     </>

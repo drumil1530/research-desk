@@ -27,7 +27,7 @@ export default async function updateSource(input: UpdateSourceInput): ActionResu
     };
   }
 
-  const { id, researchId, title, url, description, type } = result.data;
+  const { sourceId, researchId, title, url, description, type } = result.data;
   const { id: userId } = await authService.getUserOrRedirect();
 
   const isOwner = await service.research.isOwnedBy({
@@ -47,7 +47,7 @@ export default async function updateSource(input: UpdateSourceInput): ActionResu
 
   try {
     const response = await service.source.update({
-      id,
+      sourceId,
       researchId,
       title,
       url,

@@ -22,13 +22,13 @@ export default function ResearchesPage({ pageProps }: ResearchesPageProps) {
     <Page>
       <PageBreadcrumb items={[{ page: "Researches" }]} />
 
-      <PageHeader>
-        <div className="space-y-1">
+      <PageHeader className="flex-row gap-1">
+        <div className="space-y-1 w-full">
           <PageTitle>Research</PageTitle>
           <PageDescription>Explore and manage your research.</PageDescription>
         </div>
 
-        <PageActions>
+        <PageActions className="self-start">
           <CreateResearchDialog />
         </PageActions>
       </PageHeader>

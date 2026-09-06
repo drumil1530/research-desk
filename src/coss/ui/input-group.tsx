@@ -2,9 +2,10 @@
 
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
-import { cn } from "@/coss/utils";
+
 import { Input, type InputProps } from "@/coss/ui/input";
 import { Textarea, type TextareaProps } from "@/coss/ui/textarea";
+import { cn } from "@/coss/utils";
 
 const inputGroupAddonVariants = cva(
   "flex h-auto cursor-text select-none items-center justify-center gap-2 [&>kbd]:rounded-[calc(var(--radius)-5px)] in-[[data-slot=input-group]:has([data-slot=input-control],[data-slot=textarea-control])]:[&_svg:not([class*='size-'])]:size-4.5 sm:in-[[data-slot=input-group]:has([data-slot=input-control],[data-slot=textarea-control])]:[&_svg:not([class*='size-'])]:size-4 [&_svg]:-mx-0.5 not-has-[button]:**:[svg:not([class*='opacity-'])]:opacity-80",
@@ -48,8 +49,7 @@ export function InputGroupAddon({
   className,
   align = "inline-start",
   ...props
-}: React.ComponentProps<"div"> &
-  VariantProps<typeof inputGroupAddonVariants>): React.ReactElement {
+}: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>): React.ReactElement {
   return (
     <div
       className={cn(inputGroupAddonVariants({ align }), className)}
@@ -65,9 +65,9 @@ export function InputGroupAddon({
         if (isInteractive) return;
         e.preventDefault();
         const parent = e.currentTarget.parentElement;
-        const input = parent?.querySelector<
-          HTMLInputElement | HTMLTextAreaElement
-        >("input, textarea");
+        const input = parent?.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+          "input, textarea",
+        );
         if (input && !parent?.querySelector("input:focus, textarea:focus")) {
           input.focus();
         }
@@ -92,16 +92,10 @@ export function InputGroupText({
   );
 }
 
-export function InputGroupInput({
-  className,
-  ...props
-}: InputProps): React.ReactElement {
+export function InputGroupInput({ className, ...props }: InputProps): React.ReactElement {
   return <Input className={className} unstyled {...props} />;
 }
 
-export function InputGroupTextarea({
-  className,
-  ...props
-}: TextareaProps): React.ReactElement {
+export function InputGroupTextarea({ className, ...props }: TextareaProps): React.ReactElement {
   return <Textarea className={className} unstyled {...props} />;
 }

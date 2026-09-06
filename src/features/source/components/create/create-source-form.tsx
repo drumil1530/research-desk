@@ -22,8 +22,7 @@ import {
 import createSource from "@/features/source/actions/create-source";
 import { sourceTypes } from "@/features/source/contants";
 import { type CreateSourceInput, createSourceSchema } from "@/features/source/schemas";
-import type { FormErrors } from "@/shared/types/form";
-import { setFormErrors } from "@/shared/utils/form";
+import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 type CreateSourceFormProps = {
   researchId: string;
@@ -41,10 +40,6 @@ export default function CreateSourceForm({ researchId, onSuccess }: CreateSource
       type: "OTHER",
     },
   });
-
-  const errors: FormErrors = Object.fromEntries(
-    Object.entries(form.formState.errors).map(([name, error]) => [name, error?.message ?? ""]),
-  );
 
   async function onSubmit(data: CreateSourceInput) {
     form.clearErrors("form");
@@ -65,7 +60,11 @@ export default function CreateSourceForm({ researchId, onSuccess }: CreateSource
   }
 
   return (
-    <Form className="contents" errors={errors} onSubmit={form.handleSubmit(onSubmit)}>
+    <Form
+      className="contents"
+      errors={toFormErrors(form.formState.errors)}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <DialogPanel className="grid gap-4">
         <FormTextField
           {...form.register("title")}

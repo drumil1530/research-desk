@@ -19,7 +19,7 @@ export function SourceSearchEmpty() {
       <EmptyHeader>
         <EmptyTitle>No sources found</EmptyTitle>
         <EmptyDescription>
-          No sources match your search. Try a different search term.
+          No sources match your search. Try a different search term or source type.
         </EmptyDescription>
       </EmptyHeader>
     </Empty>

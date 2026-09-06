@@ -10,7 +10,7 @@ import { Form } from "@/coss/ui/form";
 import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 import { signUp } from "../actions/sign-up";
-import { signUpSchema, type SignUpInput } from "../schema";
+import { signUpSchema, type SignUpInput } from "../schemas";
 
 export default function SignUpForm() {
   const form = useForm<SignUpInput>({
@@ -21,8 +21,6 @@ export default function SignUpForm() {
       password: "",
     },
   });
-
-  const errors = toFormErrors(form.formState.errors);
 
   async function onSubmit(data: SignUpInput) {
     form.clearErrors("form");
@@ -50,7 +48,7 @@ export default function SignUpForm() {
   return (
     <Form
       className="flex w-full flex-col gap-5"
-      errors={errors}
+      errors={toFormErrors(form.formState.errors)}
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <FormTextField

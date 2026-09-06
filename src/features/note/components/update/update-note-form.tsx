@@ -11,8 +11,7 @@ import { Form } from "@/coss/ui/form";
 import updateNote from "@/features/note/actions/update-note";
 import { updateNoteSchema, type UpdateNoteInput } from "@/features/note/schemas";
 import { type Note } from "@/generated/prisma/client";
-import { type FormErrors } from "@/shared/types/form";
-import { setFormErrors } from "@/shared/utils/form";
+import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 type UpdateNoteFormProps = {
   note: Pick<Note, "id" | "content">;
@@ -24,15 +23,11 @@ export default function UpdateNoteForm({ note, researchId, onSuccess }: UpdateNo
   const form = useForm<UpdateNoteInput>({
     resolver: zodResolver(updateNoteSchema),
     defaultValues: {
-      id: note.id,
+      noteId: note.id,
       researchId,
       content: note.content,
     },
   });
-
-  const errors: FormErrors = Object.fromEntries(
-    Object.entries(form.formState.errors).map(([name, error]) => [name, error?.message ?? ""]),
-  );
 
   async function onSubmit(data: UpdateNoteInput) {
     form.clearErrors("form");
@@ -60,7 +55,11 @@ export default function UpdateNoteForm({ note, researchId, onSuccess }: UpdateNo
   }
 
   return (
-    <Form className="contents" errors={errors} onSubmit={form.handleSubmit(onSubmit)}>
+    <Form
+      className="contents"
+      errors={toFormErrors(form.formState.errors)}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <DialogPanel className="grid gap-4">
         <FormTextAreaField
           {...form.register("content")}

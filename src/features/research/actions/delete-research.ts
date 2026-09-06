@@ -27,12 +27,12 @@ export default async function deleteResearch(input: DeleteResearchInput): Action
     };
   }
 
-  const { id } = result.data;
+  const { researchId } = result.data;
   const { id: userId } = await authService.getUserOrRedirect();
 
   try {
     const response = await service.research.delete({
-      id,
+      researchId,
       userId,
     });
 

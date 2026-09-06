@@ -5,12 +5,16 @@ export type NoteCreateInput = {
 };
 
 export type NoteUpdateInput = {
-  id: string;
+  noteId: string;
   researchId: string;
   content: string;
 };
 
 export type NoteDeleteInput = {
-  id: string;
+  noteId: string;
   researchId: string;
+};
+
+export type NoteGetLatestUpdated = {
+  userId: string;
 };

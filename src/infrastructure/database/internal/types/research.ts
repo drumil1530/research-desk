@@ -1,4 +1,4 @@
-import { type ResearchStatus } from "@/generated/prisma/client";
+import { type SourceType, type ResearchStatus } from "@/generated/prisma/client";
 
 export type ResearchCreateInput = {
   userId: string;
@@ -7,12 +7,12 @@ export type ResearchCreateInput = {
 };
 
 export type ResearchGetByIdInput = {
-  id: string;
+  researchId: string;
   userId: string;
 };
 
 export type ResearchGetMetadataByIdInput = {
-  id: string;
+  researchId: string;
   userId: string;
 };
 
@@ -21,23 +21,25 @@ export type ResearchListInput = {
 
   page: number;
   search?: string;
+  status: "ALL" | ResearchStatus;
 };
 
 export type ResearchNoteListInput = {
-  id: string;
+  researchId: string;
   userId: string;
 };
 
 export type ResearchSourceListInput = {
-  id: string;
+  researchId: string;
   userId: string;
 
   page: number;
   search?: string;
+  type: SourceType | "ALL";
 };
 
 export type ResearchUpdateInput = {
-  id: string;
+  researchId: string;
   userId: string;
   title?: string;
   description?: string | null;
@@ -47,11 +49,19 @@ export type ResearchUpdateInput = {
 };
 
 export type ResearchDeleteInput = {
-  id: string;
+  researchId: string;
   userId: string;
 };
 
 export type ResearchOwnedByInput = {
   researchId: string;
+  userId: string;
+};
+
+export type ResearchGetLatestActive = {
+  userId: string;
+};
+
+export type ResearchGetLatestCompleted = {
   userId: string;
 };

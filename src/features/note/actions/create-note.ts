@@ -46,7 +46,7 @@ export default async function createNote(input: CreateNoteInput): ActionResult {
 
   if (sourceId) {
     const sourceBelongsToResearch = await service.source.belongsToResearch({
-      id: sourceId,
+      sourceId,
       researchId,
     });
 

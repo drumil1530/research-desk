@@ -29,7 +29,7 @@ export default async function deleteSource(input: DeleteSourceInput): ActionResu
     };
   }
 
-  const { id, researchId } = result.data;
+  const { sourceId, researchId } = result.data;
   const { id: userId } = await authService.getUserOrRedirect();
   const isOwner = await service.research.isOwnedBy({
     researchId,
@@ -48,7 +48,7 @@ export default async function deleteSource(input: DeleteSourceInput): ActionResu
 
   try {
     await service.source.delete({
-      id,
+      sourceId,
       researchId,
     });
 

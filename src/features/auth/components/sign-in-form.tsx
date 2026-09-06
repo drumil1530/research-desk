@@ -7,11 +7,10 @@ import FormError from "@/components/form/form-error";
 import FormTextField from "@/components/form/form-text-field";
 import { Button } from "@/coss/ui/button";
 import { Form } from "@/coss/ui/form";
-import type { FormErrors } from "@/shared/types/form";
-import { setFormErrors } from "@/shared/utils/form";
+import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 import { signIn } from "../actions/sign-in";
-import { signInSchema, type SignInInput } from "../schema";
+import { signInSchema, type SignInInput } from "../schemas";
 
 export default function SignInForm() {
   const form = useForm<SignInInput>({
@@ -21,10 +20,6 @@ export default function SignInForm() {
       password: "",
     },
   });
-
-  const errors: FormErrors = Object.fromEntries(
-    Object.entries(form.formState.errors).map(([name, error]) => [name, error?.message ?? ""]),
-  );
 
   async function onSubmit(data: SignInInput) {
     form.clearErrors("form");
@@ -52,7 +47,7 @@ export default function SignInForm() {
   return (
     <Form
       className="flex w-full flex-col gap-5"
-      errors={errors}
+      errors={toFormErrors(form.formState.errors)}
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <FormTextField

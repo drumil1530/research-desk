@@ -1,6 +1,7 @@
 "use client";
 
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
+import Link from "next/link";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/coss/ui/avatar";
 import {
@@ -11,10 +12,12 @@ import {
   MenuItem,
   MenuSeparator,
   MenuTrigger,
+  MenuLinkItem,
 } from "@/coss/ui/menu";
 import ThemeToggle from "@/coss/ui/theme-toggle";
 import { signOut } from "@/features/auth/actions/sign-out";
 import { type authService } from "@/infrastructure/auth";
+import ROUTES from "@/shared/routes";
 
 type NavUserProps = {
   user: Awaited<ReturnType<typeof authService.getUserOrRedirect>>;
@@ -34,12 +37,13 @@ export function NavUser({ user }: NavUserProps) {
 
       <MenuPopup align="end" className="w-56">
         <MenuGroup>
-          <MenuGroupLabel className="font-normal">
-            <div className="flex flex-col gap-1">
-              <span className="font-medium">{user.name}</span>
-              <span className="text-muted-foreground text-xs truncate">{user.email}</span>
-            </div>
-          </MenuGroupLabel>
+          <MenuGroupLabel className="font-medium">{user.name}</MenuGroupLabel>
+
+          <MenuLinkItem render={<Link href={ROUTES.profile} />}>
+            <User /> Profile
+          </MenuLinkItem>
+
+          <MenuSeparator />
 
           <ThemeToggle />
         </MenuGroup>

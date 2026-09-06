@@ -8,7 +8,7 @@ import { authService } from "@/infrastructure/auth";
 import ROUTES from "@/shared/routes";
 import { type Result } from "@/shared/types/result";
 
-import { type SignInInput, signInSchema } from "../schema";
+import { type SignInInput, signInSchema } from "../schemas";
 import { type AuthActionError } from "../types";
 
 type ActionResult = Promise<Result<void, AuthActionError<SignInInput>>>;
@@ -40,5 +40,5 @@ export async function signIn(input: SignInInput): ActionResult {
     }
   }
 
-  redirect(ROUTES.researchList);
+  redirect(ROUTES.dashboard);
 }

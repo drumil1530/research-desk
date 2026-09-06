@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import ROUTES from "@/shared/routes";
 
 import { auth } from "./auth";
-import { type SignInInput, type SignUpInput } from "./types";
+import { type UpdateUserInput, type SignInInput, type SignUpInput } from "./types";
 
 async function getCurrentUser() {
   const session = await auth.api.getSession({
@@ -56,10 +56,20 @@ async function signOut() {
   });
 }
 
+async function updateUser(input: UpdateUserInput) {
+  await auth.api.updateUser({
+    body: {
+      name: input.name,
+    },
+    headers: await headers(),
+  });
+}
+
 export const service = {
   getCurrentUser,
   getUserOrRedirect,
   signUp,
   signIn,
   signOut,
+  updateUser,
 };

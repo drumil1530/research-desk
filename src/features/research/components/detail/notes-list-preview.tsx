@@ -1,12 +1,10 @@
 import { Dot } from "lucide-react";
 
 import NoteEmpty from "@/features/note/components/list/note-empty";
+import { type Note } from "@/generated/prisma/client";
 
 type NoteListPreviewProps = {
-  notes: {
-    id: string;
-    content: string;
-  }[];
+  notes: Pick<Note, "id" | "content">[];
 };
 
 export default function NoteListPreview({ notes }: NoteListPreviewProps) {

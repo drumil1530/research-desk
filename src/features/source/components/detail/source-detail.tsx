@@ -45,7 +45,7 @@ export default async function SourceDetail({ params }: SourceDetailProps) {
   if (!result.success) notFound();
 
   const response = await service.source.getById({
-    id: result.data.sourceId,
+    sourceId: result.data.sourceId,
     researchId: result.data.researchId,
     userId,
   });

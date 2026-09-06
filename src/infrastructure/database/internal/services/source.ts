@@ -1,12 +1,12 @@
 import { db } from "../db";
 import type {
   SourceCreateInput,
-  SourceListInput,
   SourceUpdateInput,
   SourceDeleteInput,
   SourceBelongsToResearchInput,
   SourceGetByIdInput,
   SourceGetMetadataByIdInput as SourceGetTitleByIdInput,
+  SourceGetLatestUpdatedInput,
 } from "../types/source";
 
 async function create(input: SourceCreateInput) {
@@ -23,24 +23,8 @@ async function create(input: SourceCreateInput) {
   });
 }
 
-async function list(input: SourceListInput) {
-  const { researchId, userId } = input;
-
-  return db.source.findMany({
-    where: {
-      researchId,
-
-      research: {
-        userId,
-      },
-    },
-
-    orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
-  });
-}
-
 async function getById(input: SourceGetByIdInput) {
-  const { id, researchId, userId } = input;
+  const { sourceId: id, researchId, userId } = input;
 
   return db.source.findUnique({
     where: {
@@ -75,7 +59,7 @@ async function getById(input: SourceGetByIdInput) {
 }
 
 async function getTitleById(input: SourceGetTitleByIdInput) {
-  const { id, researchId, userId } = input;
+  const { sourceId: id, researchId, userId } = input;
 
   return db.source.findUnique({
     where: {
@@ -94,7 +78,7 @@ async function getTitleById(input: SourceGetTitleByIdInput) {
 }
 
 async function update(input: SourceUpdateInput) {
-  const { id, researchId, ...data } = input;
+  const { sourceId: id, researchId, ...data } = input;
 
   return db.source.update({
     where: {
@@ -108,7 +92,7 @@ async function update(input: SourceUpdateInput) {
 }
 
 async function remove(input: SourceDeleteInput) {
-  const { id, researchId } = input;
+  const { sourceId: id, researchId } = input;
 
   return db.source.delete({
     where: {
@@ -121,7 +105,7 @@ async function remove(input: SourceDeleteInput) {
 }
 
 async function belongsToResearch(input: SourceBelongsToResearchInput) {
-  const { id, researchId } = input;
+  const { sourceId: id, researchId } = input;
   const source = await db.source.findUnique({
     where: {
       id_researchId: {
@@ -135,12 +119,29 @@ async function belongsToResearch(input: SourceBelongsToResearchInput) {
   return source !== null;
 }
 
+async function getLatestUpdated(input: SourceGetLatestUpdatedInput) {
+  return db.source.findMany({
+    where: {
+      research: {
+        userId: input.userId,
+      },
+    },
+    select: {
+      id: true,
+      researchId: true,
+      title: true,
+    },
+    take: 5,
+    orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
+  });
+}
+
 export const source = {
   create,
-  list,
   getById,
   getTitleById,
   update,
   delete: remove,
   belongsToResearch,
+  getLatestUpdated,
 };

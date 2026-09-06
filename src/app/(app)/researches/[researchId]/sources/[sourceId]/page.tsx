@@ -11,7 +11,7 @@ export async function generateMetadata({
 }: PageProps<"/researches/[researchId]/sources/[sourceId]">): Promise<Metadata> {
   const { researchId, sourceId: id } = await params;
   const { id: userId } = await authService.getUserOrRedirect();
-  const research = await service.source.getTitleById({ id, researchId, userId });
+  const research = await service.source.getTitleById({ sourceId: id, researchId, userId });
 
   return {
     title: research?.title ?? "Source",

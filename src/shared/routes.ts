@@ -1,5 +1,7 @@
 const ROUTES = {
   home: "/",
+  dashboard: "/dashboard",
+  profile: "/profile",
 
   auth: {
     signIn: "/auth/sign-in",

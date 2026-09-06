@@ -26,7 +26,7 @@ export default async function deleteNote(input: DeleteNoteInput): ActionResult {
     };
   }
 
-  const { id, researchId } = result.data;
+  const { noteId, researchId } = result.data;
   const { id: userId } = await authService.getUserOrRedirect();
 
   const isOwner = await service.research.isOwnedBy({
@@ -45,7 +45,7 @@ export default async function deleteNote(input: DeleteNoteInput): ActionResult {
   }
 
   const response = await service.note.delete({
-    id,
+    noteId,
     researchId,
   });
 

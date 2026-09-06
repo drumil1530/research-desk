@@ -19,16 +19,16 @@ import deleteResearch from "@/features/research/actions/delete-research";
 import ROUTES from "@/shared/routes";
 
 type DeleteResearchDialogProps = {
-  id: string;
+  researchId: string;
 };
 
-export default function DeleteResearchDialog({ id }: DeleteResearchDialogProps) {
+export default function DeleteResearchDialog({ researchId }: DeleteResearchDialogProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
   async function onDelete() {
     setIsDeleting(true);
-    const result = await deleteResearch({ id });
+    const result = await deleteResearch({ researchId });
 
     if (!result.success) {
       setIsDeleting(false);

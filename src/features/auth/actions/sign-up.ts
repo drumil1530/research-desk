@@ -8,7 +8,7 @@ import { authService } from "@/infrastructure/auth";
 import ROUTES from "@/shared/routes";
 import { type Result } from "@/shared/types/result";
 
-import { signUpSchema, type SignUpInput } from "../schema";
+import { signUpSchema, type SignUpInput } from "../schemas";
 import type { AuthActionError } from "../types";
 
 type ActionResult = Promise<Result<void, AuthActionError<SignUpInput>>>;
@@ -42,5 +42,5 @@ export async function signUp(input: SignUpInput): ActionResult {
     throw error;
   }
 
-  redirect(ROUTES.researchList);
+  redirect(ROUTES.dashboard);
 }

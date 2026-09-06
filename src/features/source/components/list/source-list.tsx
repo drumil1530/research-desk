@@ -1,6 +1,6 @@
-import { ExternalLinkIcon, Search, SearchIcon } from "lucide-react";
+import { BookType, Search, SearchIcon } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import {
   Page,
@@ -17,11 +17,18 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/coss/ui/card";
 import { Form } from "@/coss/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/coss/ui/input-group";
 import { Menu, MenuItem, MenuPopup, MenuTrigger } from "@/coss/ui/menu";
+import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/coss/ui/select";
 import { researchIdSchema } from "@/features/research/schemas";
 import { sourceTypes } from "@/features/source/contants";
+import {
+  listResearchSourcesFiltersSchema,
+  type ListResearchSourcesInput,
+} from "@/features/source/schemas";
+import { type SourceType } from "@/generated/prisma/enums";
 import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
 import ROUTES from "@/shared/routes";
+import { type SelectList } from "@/shared/types/coss";
 
 import CreateSourceDialog from "../create/create-source-dialog";
 
@@ -34,28 +41,58 @@ type SourceListProps = {
   >;
 };
 
+function toSourceType(type: ListResearchSourcesInput["type"]): SourceType | "ALL" {
+  switch (type) {
+    case "all":
+      return "ALL";
+    case "article":
+      return "ARTICLE";
+    case "documentation":
+      return "DOCUMENTATION";
+    case "video":
+      return "VIDEO";
+    case "repository":
+      return "REPOSITORY";
+    case "paper":
+      return "PAPER";
+    case "other":
+      return "OTHER";
+  }
+}
+
 export default async function SourceList({ pageProps }: SourceListProps) {
   const resolvedParams = await pageProps.params;
   const page = "number" in resolvedParams ? Number(resolvedParams.number) : 1;
-  const search = (await pageProps.searchParams)["search"]?.toString().trim().toLowerCase();
+  const filterResult = listResearchSourcesFiltersSchema.safeParse(await pageProps.searchParams);
 
+  if (!filterResult.success) redirect(getSourcePageHref(1, { type: "all" }));
   const { id: userId } = await authService.getUserOrRedirect();
 
   const result = researchIdSchema.safeParse(resolvedParams.researchId);
   if (!result.success) notFound();
 
-  const research = await service.research.sourceList({ id: result.data, userId, page, search });
+  const { search, type } = filterResult.data;
+  const research = await service.research.sourceList({
+    researchId: result.data,
+    userId,
+    page,
+    search,
+    type: toSourceType(type),
+  });
   if (!research) notFound();
 
-  function getSourcePageHref(page: number) {
+  function getSourcePageHref(page: number, filters?: ListResearchSourcesInput) {
+    const { search, type } = filters || filterResult.data!;
+
     const href =
       page === 1
         ? ROUTES.research(research!.id).sources
         : ROUTES.research(research!.id).sourcePage(page);
 
-    if (!search) return href;
-
-    const params = new URLSearchParams({ search });
+    const params = new URLSearchParams({
+      ...(search && { search }),
+      type,
+    });
 
     return `${href}?${params}`;
   }
@@ -105,33 +142,15 @@ export default async function SourceList({ pageProps }: SourceListProps) {
       </PageHeader>
 
       <PageContent className="flex flex-col gap-2">
-        {research.sources.length === 0 && !search ? (
+        {research.sources.length === 0 && !search && type === "all" ? (
           <Card>
             <SourceEmpty />
           </Card>
         ) : (
           <>
-            <Form method="GET" className="flex gap-1.5">
-              <InputGroup>
-                <InputGroupAddon>
-                  <SearchIcon aria-hidden="true" />
-                </InputGroupAddon>
+            <FiltersForm search={search} type={type} />
 
-                <InputGroupInput
-                  aria-label="Search"
-                  type="search"
-                  name="search"
-                  defaultValue={search}
-                  placeholder="Search sources..."
-                  className="[&_input]:h-9 [&_input]:sm:h-8"
-                />
-              </InputGroup>
-              <Button type="submit">
-                <Search />
-                <span className="hidden sm:inline">Search</span>
-              </Button>
-            </Form>
-            {research.sources.length === 0 && search ? (
+            {research.sources.length === 0 && (search || type !== "all") ? (
               <Card>
                 <SourceSearchEmpty />
               </Card>
@@ -144,7 +163,6 @@ export default async function SourceList({ pageProps }: SourceListProps) {
                       render={<Link href={ROUTES.research(source.researchId).source(source.id)} />}
                     >
                       {source.title}
-                      <ExternalLinkIcon className="ml-1 inline size-3.5 opacity-60" />
                     </CardTitle>
 
                     {source.description && (
@@ -182,5 +200,54 @@ export default async function SourceList({ pageProps }: SourceListProps) {
         />
       )}
     </Page>
+  );
+}
+
+const types = [
+  { label: "All", value: "all" },
+  { label: "Article", value: "article" },
+  { label: "Documentation", value: "documentation" },
+  { label: "Video", value: "video" },
+  { label: "Repository", value: "repository" },
+  { label: "Paper", value: "paper" },
+  { label: "Other", value: "other" },
+] satisfies SelectList<ListResearchSourcesInput["type"]>;
+
+function FiltersForm({ search, type }: ListResearchSourcesInput) {
+  return (
+    <Form method="GET" className="flex flex-wrap sm:flex-nowrap gap-1.5">
+      <InputGroup>
+        <InputGroupAddon>
+          <SearchIcon aria-hidden="true" />
+        </InputGroupAddon>
+
+        <InputGroupInput
+          aria-label="Search"
+          type="search"
+          name="search"
+          defaultValue={search}
+          placeholder="Search sources..."
+          className="[&_input]:h-9 [&_input]:sm:h-8"
+        />
+      </InputGroup>
+
+      <Select aria-label="Select source type" defaultValue={type} items={types} name="type">
+        <SelectTrigger className="w-39">
+          <BookType />
+          <SelectValue />
+        </SelectTrigger>
+        <SelectPopup>
+          {types.map(({ label, value }) => (
+            <SelectItem key={value} value={value}>
+              {label}
+            </SelectItem>
+          ))}
+        </SelectPopup>
+      </Select>
+      <Button type="submit" className="ms-auto">
+        <Search />
+        <span>Search</span>
+      </Button>
+    </Form>
   );
 }

@@ -26,7 +26,7 @@ export default async function updateNote(input: UpdateNoteInput): ActionResult {
     };
   }
 
-  const { id, researchId, content } = result.data;
+  const { noteId, researchId, content } = result.data;
   const { id: userId } = await authService.getUserOrRedirect();
 
   const isOwner = await service.research.isOwnedBy({
@@ -45,7 +45,7 @@ export default async function updateNote(input: UpdateNoteInput): ActionResult {
   }
 
   const response = await service.note.update({
-    id,
+    noteId,
     researchId,
     content,
   });

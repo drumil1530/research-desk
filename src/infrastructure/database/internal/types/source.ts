@@ -8,25 +8,20 @@ export type SourceCreateInput = {
   type: SourceType;
 };
 
-export type SourceListInput = {
-  researchId: string;
-  userId: string;
-};
-
 export type SourceGetByIdInput = {
-  id: string;
+  sourceId: string;
   researchId: string;
   userId: string;
 };
 
 export type SourceGetMetadataByIdInput = {
-  id: string;
+  sourceId: string;
   researchId: string;
   userId: string;
 };
 
 export type SourceUpdateInput = {
-  id: string;
+  sourceId: string;
   researchId: string;
   title?: string;
   url?: string;
@@ -35,11 +30,15 @@ export type SourceUpdateInput = {
 };
 
 export type SourceDeleteInput = {
-  id: string;
+  sourceId: string;
   researchId: string;
 };
 
 export type SourceBelongsToResearchInput = {
-  id: string;
+  sourceId: string;
   researchId: string;
+};
+
+export type SourceGetLatestUpdatedInput = {
+  userId: string;
 };

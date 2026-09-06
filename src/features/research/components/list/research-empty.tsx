@@ -19,7 +19,7 @@ export function ResearchSearchEmpty() {
       <EmptyHeader>
         <EmptyTitle>No research found</EmptyTitle>
         <EmptyDescription>
-          No research matches your search. Try a different search term.
+          No research matches your search. Try a different search term or status.
         </EmptyDescription>
       </EmptyHeader>
     </Empty>

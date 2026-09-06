@@ -11,18 +11,17 @@ import { DialogClose, DialogFooter, DialogPanel } from "@/coss/ui/dialog";
 import { Form } from "@/coss/ui/form";
 import updateResearch from "@/features/research/actions/update-research";
 import { updateResearchSchema, type UpdateResearchInput } from "@/features/research/schemas";
-import type { FormErrors } from "@/shared/types/form";
-import { setFormErrors } from "@/shared/utils/form";
+import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 type UpdateResearchFormProps = {
-  id: string;
+  researchId: string;
   title: string;
   description: string | null;
   onSuccess: () => void;
 };
 
 export default function UpdateResearchForm({
-  id,
+  researchId,
   title,
   description,
   onSuccess,
@@ -30,15 +29,11 @@ export default function UpdateResearchForm({
   const form = useForm<UpdateResearchInput>({
     resolver: zodResolver(updateResearchSchema),
     defaultValues: {
-      id,
+      researchId,
       title,
       description: description ?? "",
     },
   });
-
-  const errors: FormErrors = Object.fromEntries(
-    Object.entries(form.formState.errors).map(([name, error]) => [name, error?.message ?? ""]),
-  );
 
   async function onSubmit(data: UpdateResearchInput) {
     form.clearErrors("form");
@@ -66,7 +61,11 @@ export default function UpdateResearchForm({
   }
 
   return (
-    <Form className="contents" errors={errors} onSubmit={form.handleSubmit(onSubmit)}>
+    <Form
+      className="contents"
+      errors={toFormErrors(form.formState.errors)}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <DialogPanel className="grid gap-4">
         <FormTextField
           {...form.register("title")}

@@ -18,14 +18,14 @@ import deleteSource from "@/features/source/actions/delete-source";
 type DeleteSourceDialogProps = {
   open: boolean;
   onOpenChange: (value: boolean) => void;
-  id: string;
+  sourceId: string;
   researchId: string;
 };
 
 export default function DeleteSourceDialog({
   open,
   onOpenChange,
-  id,
+  sourceId,
   researchId,
 }: DeleteSourceDialogProps) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -33,7 +33,7 @@ export default function DeleteSourceDialog({
 
   async function onDelete() {
     setIsDeleting(true);
-    const result = await deleteSource({ id, researchId });
+    const result = await deleteSource({ sourceId, researchId });
 
     if (!result.success) {
       setIsDeleting(false);

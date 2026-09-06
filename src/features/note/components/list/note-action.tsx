@@ -53,7 +53,7 @@ export default function NoteActions({ note, researchId }: NoteActionsProps) {
       <DeleteNoteDialog
         open={deleteOpen}
         onOpenChange={setDeleteOpen}
-        id={note.id}
+        noteId={note.id}
         researchId={researchId}
       />
     </>

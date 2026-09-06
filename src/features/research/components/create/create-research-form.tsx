@@ -11,8 +11,7 @@ import { DialogClose, DialogFooter, DialogPanel } from "@/coss/ui/dialog";
 import { Form } from "@/coss/ui/form";
 import createResearch from "@/features/research/actions/create-research";
 import { type CreateResearchInput, createResearchSchema } from "@/features/research/schemas";
-import type { FormErrors } from "@/shared/types/form";
-import { setFormErrors } from "@/shared/utils/form";
+import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 type CreateResearchFormProps = {
   onSuccess: () => void;
@@ -26,10 +25,6 @@ export default function CreateResearchForm({ onSuccess }: CreateResearchFormProp
       description: "",
     },
   });
-
-  const errors: FormErrors = Object.fromEntries(
-    Object.entries(form.formState.errors).map(([name, error]) => [name, error?.message ?? ""]),
-  );
 
   async function onSubmit(data: CreateResearchInput) {
     form.clearErrors("form");
@@ -50,7 +45,11 @@ export default function CreateResearchForm({ onSuccess }: CreateResearchFormProp
   }
 
   return (
-    <Form className="contents" errors={errors} onSubmit={form.handleSubmit(onSubmit)}>
+    <Form
+      className="contents"
+      errors={toFormErrors(form.formState.errors)}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <DialogPanel className="grid gap-4">
         <FormTextField
           {...form.register("title")}

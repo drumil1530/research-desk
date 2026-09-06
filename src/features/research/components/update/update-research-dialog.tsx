@@ -17,13 +17,13 @@ import {
 import UpdateResearchForm from "./update-research-form";
 
 type UpdateResearchDialogProps = {
-  id: string;
+  researchId: string;
   title: string;
   description: string | null;
 };
 
 export default function UpdateResearchDialog({
-  id,
+  researchId,
   title,
   description,
 }: UpdateResearchDialogProps) {
@@ -44,7 +44,7 @@ export default function UpdateResearchDialog({
         </DialogHeader>
 
         <UpdateResearchForm
-          id={id}
+          researchId={researchId}
           title={title}
           description={description}
           onSuccess={() => {

@@ -10,8 +10,7 @@ import { DialogClose, DialogFooter, DialogPanel } from "@/coss/ui/dialog";
 import { Form } from "@/coss/ui/form";
 import createNote from "@/features/note/actions/create-note";
 import { type CreateNoteInput, createNoteSchema } from "@/features/note/schemas";
-import type { FormErrors } from "@/shared/types/form";
-import { setFormErrors } from "@/shared/utils/form";
+import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 type CreateNoteFormProps = {
   researchId: string;
@@ -28,10 +27,6 @@ export default function CreateNoteForm({ researchId, sourceId, onSuccess }: Crea
       content: "",
     },
   });
-
-  const errors: FormErrors = Object.fromEntries(
-    Object.entries(form.formState.errors).map(([name, error]) => [name, error?.message ?? ""]),
-  );
 
   async function onSubmit(data: CreateNoteInput) {
     form.clearErrors("form");
@@ -52,7 +47,11 @@ export default function CreateNoteForm({ researchId, sourceId, onSuccess }: Crea
   }
 
   return (
-    <Form className="contents" errors={errors} onSubmit={form.handleSubmit(onSubmit)}>
+    <Form
+      className="contents"
+      errors={toFormErrors(form.formState.errors)}
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <DialogPanel className="grid gap-4">
         <FormTextAreaField
           {...form.register("content")}

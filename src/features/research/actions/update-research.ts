@@ -27,12 +27,12 @@ export default async function updateResearch(input: UpdateResearchInput): Action
     };
   }
 
-  const { id, title, description } = result.data;
+  const { researchId, title, description } = result.data;
   const { id: userId } = await authService.getUserOrRedirect();
 
   try {
     const response = await service.research.update({
-      id,
+      researchId,
       userId,
       title,
       description,
