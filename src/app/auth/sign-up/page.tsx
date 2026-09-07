@@ -32,7 +32,11 @@ export default function SignUpPage() {
         </CardPanel>
       </Card>
 
-      <CardFrameFooter>
+      <CardFrameFooter className="text-center">
+        <p className="text-xs text-muted-foreground mb-2">
+          Password recovery and email changes are not currently available.
+        </p>
+
         <p className="text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link href={ROUTES.auth.signIn} className="hover:underline underline-offset-4">

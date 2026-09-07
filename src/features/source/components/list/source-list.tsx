@@ -232,7 +232,7 @@ function FiltersForm({ search, type }: ListResearchSourcesInput) {
       </InputGroup>
 
       <Select aria-label="Select source type" defaultValue={type} items={types} name="type">
-        <SelectTrigger className="w-39">
+        <SelectTrigger className="w-46">
           <BookType />
           <SelectValue />
         </SelectTrigger>

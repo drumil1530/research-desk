@@ -51,8 +51,6 @@ export default async function deleteSource(input: DeleteSourceInput): ActionResu
       sourceId,
       researchId,
     });
-
-    redirect(ROUTES.research(researchId).sources);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
       return {
@@ -66,4 +64,6 @@ export default async function deleteSource(input: DeleteSourceInput): ActionResu
 
     throw error;
   }
+
+  redirect(ROUTES.research(researchId).sources);
 }

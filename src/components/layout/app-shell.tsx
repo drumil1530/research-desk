@@ -18,7 +18,7 @@ export default function AppShell({ children, user }: AppShellProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="flex h-14 shrink-0 items-center border-b px-4">
-        <Link href={ROUTES.researchList} className="flex items-center gap-2 font-semibold">
+        <Link href={ROUTES.dashboard} className="flex items-center gap-2 font-semibold">
           <Logo />
         </Link>
 

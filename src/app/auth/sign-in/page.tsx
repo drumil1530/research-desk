@@ -32,7 +32,11 @@ export default function SignInPage() {
         </CardPanel>
       </Card>
 
-      <CardFrameFooter>
+      <CardFrameFooter className="text-center">
+        <p className="text-xs text-muted-foreground mb-2">
+          Password recovery is not currently available.
+        </p>
+
         <p className="text-sm text-muted-foreground">
           {"Don't have an account?"}{" "}
           <Link href={ROUTES.auth.signUp} className="hover:underline underline-offset-4">
