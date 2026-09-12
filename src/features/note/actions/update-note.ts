@@ -2,6 +2,7 @@
 
 import z from "zod";
 
+import { Prisma } from "@/generated/prisma/client";
 import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
 import { type Result } from "@/shared/types/result";
@@ -44,14 +45,28 @@ export default async function updateNote(input: UpdateNoteInput): ActionResult {
     };
   }
 
-  const response = await service.note.update({
-    noteId,
-    researchId,
-    content,
-  });
+  try {
+    const response = await service.note.update({
+      noteId,
+      researchId,
+      content,
+    });
 
-  return {
-    success: true,
-    data: response,
-  };
+    return {
+      success: true,
+      data: response,
+    };
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+      return {
+        success: false,
+        error: {
+          type: "notFound",
+          message: "Note not found.",
+        },
+      };
+    }
+
+    throw error;
+  }
 }

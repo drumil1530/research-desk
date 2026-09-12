@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/coss/ui/dialog";
+import ROUTES from "@/shared/routes";
 
 import CreateSourceForm from "./create-source-form";
 
@@ -38,9 +39,9 @@ export default function CreateSourceDialog({ researchId }: CreateSourceDialogPro
 
         <CreateSourceForm
           researchId={researchId}
-          onSuccess={() => {
+          onSuccess={(sourceId: string) => {
             setOpen(false);
-            router.refresh();
+            router.push(ROUTES.research(researchId).source(sourceId));
           }}
         />
       </DialogPopup>

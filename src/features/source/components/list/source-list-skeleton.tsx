@@ -44,12 +44,12 @@ export default function SourceListSkeleton() {
               <Skeleton className="h-4 w-4/5" />
 
               <div className="flex items-center justify-between gap-2">
+                <Skeleton className="h-4 w-40" />
+
                 <div className="flex gap-1">
                   <Skeleton className="h-4.5 w-17" />
                   <Skeleton className="h-4.5 w-12.75" />
                 </div>
-
-                <Skeleton className="size-7 rounded-lg shrink-0" />
               </div>
             </CardHeader>
           </Card>

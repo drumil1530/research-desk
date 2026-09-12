@@ -9,7 +9,7 @@ import { Button } from "@/coss/ui/button";
 import { Form } from "@/coss/ui/form";
 import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
-import { signUp } from "../actions/sign-up";
+import signUp from "../actions/sign-up";
 import { signUpSchema, type SignUpInput } from "../schemas";
 
 export default function SignUpForm() {

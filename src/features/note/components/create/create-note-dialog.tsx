@@ -19,39 +19,31 @@ import CreateNoteForm from "./create-note-form";
 type CreateNoteDialogProps = {
   researchId: string;
   sourceId: string | null;
-  open?: boolean;
-  onOpenChange?: (value: boolean) => void;
 };
 
-export default function CreateNoteDialog({
-  researchId,
-  sourceId,
-  open: intialOpen,
-  onOpenChange,
-}: CreateNoteDialogProps) {
+export default function CreateNoteDialog({ researchId, sourceId }: CreateNoteDialogProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
   return (
-    <Dialog open={intialOpen || open} onOpenChange={onOpenChange || setOpen}>
-      {!intialOpen && !onOpenChange && (
-        <DialogTrigger render={<Button variant="outline" />}>
-          <Plus /> Add
-        </DialogTrigger>
-      )}
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger render={<Button variant="outline" />}>
+        <Plus /> Add
+      </DialogTrigger>
 
       <DialogPopup className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>Add Note</DialogTitle>
-          <DialogDescription>Add a note to this research.</DialogDescription>
+          <DialogDescription>
+            Add a note to this {sourceId ? "source" : "research"}.
+          </DialogDescription>
         </DialogHeader>
 
         <CreateNoteForm
           researchId={researchId}
           sourceId={sourceId}
           onSuccess={() => {
-            if (onOpenChange) onOpenChange(false);
-            else setOpen(false);
+            setOpen(false);
             router.refresh();
           }}
         />

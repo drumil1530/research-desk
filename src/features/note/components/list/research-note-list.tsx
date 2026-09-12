@@ -75,7 +75,7 @@ export default async function ResearchNoteList({ params }: NoteListProps) {
       />
 
       <PageHeader className="flex-row justify-between items-center">
-        <PageTitle>Notes ({research._count.notes})</PageTitle>
+        <PageTitle>Notes ({research.notes.length})</PageTitle>
 
         <PageActions>
           <CreateNoteDialog researchId={research.id} sourceId={null} />
@@ -90,11 +90,9 @@ export default async function ResearchNoteList({ params }: NoteListProps) {
           <Card>
             <CardContent className="p-4 md:py-4">
               {research.notes.map((note) => (
-                <div key={note.id} className="flex gap-2 py-3 -ms-2">
-                  <Dot className="size-6 shrink-0" />
-                  <p className="min-w-0 flex-1 whitespace-pre-wrap text-sm leading-relaxed">
-                    {note.content}
-                  </p>
+                <div key={note.id} className="flex gap-1 py-1.5 -ms-2">
+                  <Dot className="size-6 shrink-0 -mt-0.5" />
+                  <p className="min-w-0 flex-1 whitespace-pre-wrap text-sm">{note.content}</p>
 
                   <NoteActions note={note} researchId={research.id} />
                 </div>

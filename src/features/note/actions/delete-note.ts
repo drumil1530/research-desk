@@ -2,6 +2,7 @@
 
 import z from "zod";
 
+import { Prisma } from "@/generated/prisma/client";
 import { authService } from "@/infrastructure/auth";
 import { service } from "@/infrastructure/database";
 import { type Result } from "@/shared/types/result";
@@ -43,14 +44,27 @@ export default async function deleteNote(input: DeleteNoteInput): ActionResult {
       },
     };
   }
+  try {
+    const response = await service.note.delete({
+      noteId,
+      researchId,
+    });
 
-  const response = await service.note.delete({
-    noteId,
-    researchId,
-  });
+    return {
+      success: true,
+      data: response,
+    };
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+      return {
+        success: false,
+        error: {
+          type: "notFound",
+          message: "Note not found.",
+        },
+      };
+    }
 
-  return {
-    success: true,
-    data: response,
-  };
+    throw error;
+  }
 }

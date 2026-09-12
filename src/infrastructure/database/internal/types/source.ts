@@ -1,6 +1,6 @@
 import { type SourceType } from "@/generated/prisma/enums";
 
-export type SourceCreateInput = {
+export type CreateInput = {
   researchId: string;
   title: string;
   url: string;
@@ -8,19 +8,19 @@ export type SourceCreateInput = {
   type: SourceType;
 };
 
-export type SourceGetByIdInput = {
+export type GetByIdInput = {
   sourceId: string;
   researchId: string;
   userId: string;
 };
 
-export type SourceGetMetadataByIdInput = {
+export type GetTitleByIdInput = {
   sourceId: string;
   researchId: string;
   userId: string;
 };
 
-export type SourceUpdateInput = {
+export type UpdateInput = {
   sourceId: string;
   researchId: string;
   title?: string;
@@ -29,16 +29,16 @@ export type SourceUpdateInput = {
   type?: SourceType;
 };
 
-export type SourceDeleteInput = {
+export type DeleteInput = {
   sourceId: string;
   researchId: string;
 };
 
-export type SourceBelongsToResearchInput = {
+export type BelongsToResearchInput = {
   sourceId: string;
   researchId: string;
 };
 
-export type SourceGetLatestUpdatedInput = {
+export type GetLatestUpdatedInput = {
   userId: string;
 };

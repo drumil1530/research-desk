@@ -66,7 +66,7 @@ export default function CreateNoteForm({ researchId, sourceId, onSuccess }: Crea
         <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
 
         <Button loading={form.formState.isSubmitting} type="submit">
-          Add Note
+          Add
         </Button>
       </DialogFooter>
     </Form>

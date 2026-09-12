@@ -14,7 +14,7 @@ import { type CreateResearchInput, createResearchSchema } from "@/features/resea
 import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 type CreateResearchFormProps = {
-  onSuccess: () => void;
+  onSuccess: (researchId: string) => void;
 };
 
 export default function CreateResearchForm({ onSuccess }: CreateResearchFormProps) {
@@ -41,7 +41,7 @@ export default function CreateResearchForm({ onSuccess }: CreateResearchFormProp
       return;
     }
 
-    onSuccess();
+    onSuccess(result.data.id);
   }
 
   return (

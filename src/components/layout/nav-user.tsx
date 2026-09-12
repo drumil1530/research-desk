@@ -15,7 +15,7 @@ import {
   MenuLinkItem,
 } from "@/coss/ui/menu";
 import ThemeToggle from "@/coss/ui/theme-toggle";
-import { signOut } from "@/features/auth/actions/sign-out";
+import signOut from "@/features/auth/actions/sign-out";
 import { type authService } from "@/infrastructure/auth";
 import ROUTES from "@/shared/routes";
 

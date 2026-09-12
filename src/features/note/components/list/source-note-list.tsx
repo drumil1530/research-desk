@@ -17,13 +17,11 @@ export default async function SourceNoteList({ researchId, notes }: SourceNoteLi
       <NoteEmpty />
     </Card>
   ) : (
-    <Card className="p-4 md:py-4 md:px-6">
+    <Card className="p-4 md:py-3 md:px-6">
       {notes.map((note) => (
-        <div key={note.id} className="flex gap-2 py-3 -ms-2">
-          <Dot className="size-6 shrink-0" />
-          <p className="min-w-0 flex-1 whitespace-pre-wrap text-sm leading-relaxed">
-            {note.content}
-          </p>
+        <div key={note.id} className="flex gap-1 py-1.5 -ms-2">
+          <Dot className="size-6 shrink-0 -mt-0.5" />
+          <p className="min-w-0 flex-1 whitespace-pre-wrap text-sm">{note.content}</p>
 
           <NoteActions note={note} researchId={researchId} />
         </div>

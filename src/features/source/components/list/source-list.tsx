@@ -11,15 +11,13 @@ import {
   PageTitle,
 } from "@/components/core/page";
 import Pagination from "@/components/core/pagination";
-import { Badge } from "@/coss/ui/badge";
 import { Button } from "@/coss/ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/coss/ui/card";
+import { Card } from "@/coss/ui/card";
 import { Form } from "@/coss/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/coss/ui/input-group";
 import { Menu, MenuItem, MenuPopup, MenuTrigger } from "@/coss/ui/menu";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/coss/ui/select";
 import { researchIdSchema } from "@/features/research/schemas";
-import { sourceTypes } from "@/features/source/contants";
 import {
   listResearchSourcesFiltersSchema,
   type ListResearchSourcesInput,
@@ -32,7 +30,7 @@ import { type SelectList } from "@/shared/types/coss";
 
 import CreateSourceDialog from "../create/create-source-dialog";
 
-import SourceActions from "./source-action";
+import SourceCard from "./source-card";
 import { SourceEmpty, SourceSearchEmpty } from "./source-empty";
 
 type SourceListProps = {
@@ -156,35 +154,7 @@ export default async function SourceList({ pageProps }: SourceListProps) {
               </Card>
             ) : (
               research.sources.map((source) => (
-                <Card key={source.id}>
-                  <CardHeader className="grid-cols-1">
-                    <CardTitle
-                      className="text-base hover:underline underline-offset-4 leading-relaxed"
-                      render={<Link href={ROUTES.research(source.researchId).source(source.id)} />}
-                    >
-                      {source.title}
-                    </CardTitle>
-
-                    {source.description && (
-                      <CardDescription className="col-span-2 mt-1 text-sm text-muted-foreground line-clamp-2">
-                        {source.description}
-                      </CardDescription>
-                    )}
-
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex gap-1">
-                        <Badge variant="secondary">
-                          {sourceTypes.find((type) => type.value === source.type)?.label ||
-                            source.type}
-                        </Badge>
-
-                        <Badge variant="outline">Notes {source._count.notes}</Badge>
-                      </div>
-
-                      <SourceActions source={source} />
-                    </div>
-                  </CardHeader>
-                </Card>
+                <SourceCard key={source.id} researchId={research.id} source={source} />
               ))
             )}
           </>

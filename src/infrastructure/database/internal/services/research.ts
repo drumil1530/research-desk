@@ -4,21 +4,9 @@ import type { ResearchWhereInput } from "@/generated/prisma/models";
 import ROUTES from "@/shared/routes";
 
 import { db } from "../db";
-import type {
-  ResearchGetByIdInput,
-  ResearchCreateInput,
-  ResearchListInput,
-  ResearchUpdateInput,
-  ResearchDeleteInput,
-  ResearchOwnedByInput,
-  ResearchNoteListInput,
-  ResearchSourceListInput,
-  ResearchGetMetadataByIdInput as ResearchGetTitleByIdInput,
-  ResearchGetLatestActive,
-  ResearchGetLatestCompleted,
-} from "../types/research";
+import type * as Research from "../types/research";
 
-async function create(input: ResearchCreateInput) {
+async function create(input: Research.CreateInput) {
   const { userId, title, description } = input;
 
   return db.research.create({
@@ -30,7 +18,7 @@ async function create(input: ResearchCreateInput) {
   });
 }
 
-async function getById(input: ResearchGetByIdInput) {
+async function getById(input: Research.GetByIdInput) {
   const { researchId: id, userId } = input;
 
   return db.research.findUnique({
@@ -65,14 +53,13 @@ async function getById(input: ResearchGetByIdInput) {
           id: true,
           content: true,
         },
-        orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
         take: 5,
       },
     },
   });
 }
 
-async function getTitleById(input: ResearchGetTitleByIdInput) {
+async function getTitleById(input: Research.GetTitleByIdInput) {
   const { researchId: id, userId } = input;
 
   return db.research.findUnique({
@@ -89,7 +76,7 @@ async function getTitleById(input: ResearchGetTitleByIdInput) {
   });
 }
 
-async function list(input: ResearchListInput) {
+async function list(input: Research.ListInput) {
   const { userId, page, search, status } = input;
 
   const where = {
@@ -108,9 +95,7 @@ async function list(input: ResearchListInput) {
   } satisfies ResearchWhereInput;
 
   const pageSize = 10;
-  const total = await db.research.count({
-    where,
-  });
+  const total = await db.research.count({ where });
 
   const totalPages = Math.ceil(total / pageSize);
 
@@ -134,7 +119,7 @@ async function list(input: ResearchListInput) {
   };
 }
 
-async function sourceList(input: ResearchSourceListInput) {
+async function sourceList(input: Research.SourceListInput) {
   const { researchId: id, userId, page, search, type } = input;
 
   const pageSize = 10;
@@ -150,11 +135,6 @@ async function sourceList(input: ResearchSourceListInput) {
       id: true,
       title: true,
 
-      _count: {
-        select: {
-          sources: true,
-        },
-      },
       sources: {
         where: {
           ...(search
@@ -169,6 +149,7 @@ async function sourceList(input: ResearchSourceListInput) {
         },
         skip: (page - 1) * pageSize,
         take: pageSize,
+
         include: {
           _count: {
             select: {
@@ -187,7 +168,7 @@ async function sourceList(input: ResearchSourceListInput) {
 
   if (!research) return null;
 
-  const totalSources = research._count.sources;
+  const totalSources = research.sources.length;
   const totalSourcePages = Math.ceil(totalSources / pageSize);
 
   if (totalSourcePages === 0) {
@@ -203,7 +184,7 @@ async function sourceList(input: ResearchSourceListInput) {
   };
 }
 
-async function noteList(input: ResearchNoteListInput) {
+async function noteList(input: Research.NoteListInput) {
   const { researchId: id, userId } = input;
 
   return db.research.findUnique({
@@ -217,26 +198,18 @@ async function noteList(input: ResearchNoteListInput) {
       id: true,
       title: true,
 
-      _count: {
-        select: {
-          notes: {
-            where: { sourceId: null },
-          },
-        },
-      },
       notes: {
         where: { sourceId: null },
         select: {
           id: true,
           content: true,
         },
-        orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
       },
     },
   });
 }
 
-async function update(input: ResearchUpdateInput) {
+async function update(input: Research.UpdateInput) {
   const { researchId: id, userId, ...data } = input;
 
   return db.research.update({
@@ -250,7 +223,7 @@ async function update(input: ResearchUpdateInput) {
   });
 }
 
-async function remove(input: ResearchDeleteInput) {
+async function remove(input: Research.DeleteInput) {
   const { researchId: id, userId } = input;
 
   return db.research.delete({
@@ -263,7 +236,7 @@ async function remove(input: ResearchDeleteInput) {
   });
 }
 
-async function isOwnedBy(input: ResearchOwnedByInput) {
+async function isOwnedBy(input: Research.OwnedByInput) {
   const { researchId: id, userId } = input;
 
   const research = await db.research.findUnique({
@@ -281,7 +254,7 @@ async function isOwnedBy(input: ResearchOwnedByInput) {
   return research !== null;
 }
 
-async function getLatestActive(input: ResearchGetLatestActive) {
+async function getLatestActive(input: Research.GetLatestActive) {
   return db.research.findMany({
     where: {
       userId: input.userId,
@@ -292,7 +265,7 @@ async function getLatestActive(input: ResearchGetLatestActive) {
   });
 }
 
-async function getLatestCompleted(input: ResearchGetLatestCompleted) {
+async function getLatestCompleted(input: Research.GetLatestCompleted) {
   return db.research.findMany({
     where: {
       userId: input.userId,

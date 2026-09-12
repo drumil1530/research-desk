@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/coss/ui/dialog";
+import ROUTES from "@/shared/routes";
 
 import CreateResearchForm from "./create-research-form";
 
@@ -33,9 +34,9 @@ export default function CreateResearchDialog() {
         </DialogHeader>
 
         <CreateResearchForm
-          onSuccess={() => {
+          onSuccess={(researchId: string) => {
             setOpen(false);
-            router.refresh();
+            router.push(ROUTES.research(researchId).detail);
           }}
         />
       </DialogPopup>

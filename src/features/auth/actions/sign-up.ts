@@ -13,7 +13,7 @@ import type { AuthActionError } from "../types";
 
 type ActionResult = Promise<Result<void, AuthActionError<SignUpInput>>>;
 
-export async function signUp(input: SignUpInput): ActionResult {
+export default async function signUp(input: SignUpInput): ActionResult {
   const result = signUpSchema.safeParse(input);
 
   if (!result.success) {

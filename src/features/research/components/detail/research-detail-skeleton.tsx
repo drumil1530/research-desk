@@ -8,7 +8,15 @@ import {
   PageHeader,
   PageTitle,
 } from "@/components/core/page";
-import { Card, CardFrame, CardFrameAction, CardFrameHeader, CardFrameTitle } from "@/coss/ui/card";
+import {
+  Card,
+  CardFrame,
+  CardFrameAction,
+  CardFrameFooter,
+  CardFrameHeader,
+  CardFrameTitle,
+  CardPanel,
+} from "@/coss/ui/card";
 import { Skeleton } from "@/coss/ui/skeleton";
 import ROUTES from "@/shared/routes";
 
@@ -95,6 +103,33 @@ export default function ResearchDetailSkeleton() {
               ))}
             </div>
           </Card>
+        </CardFrame>
+      </PageContent>
+
+      <PageContent>
+        <CardFrame>
+          <CardFrameHeader className="py-3">
+            <CardFrameTitle>
+              <Skeleton className="h-5 w-20" />
+            </CardFrameTitle>
+
+            <CardFrameAction>
+              <Skeleton className="h-7.25 w-17.75 rounded-lg" />
+            </CardFrameAction>
+          </CardFrameHeader>
+
+          <Card>
+            <CardPanel className="space-y-1">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-2/5" />
+            </CardPanel>
+          </Card>
+
+          <CardFrameFooter>
+            <Skeleton className="h-4 w-32" />
+          </CardFrameFooter>
         </CardFrame>
       </PageContent>
     </Page>

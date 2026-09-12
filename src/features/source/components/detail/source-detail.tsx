@@ -131,9 +131,7 @@ export default async function SourceDetail({ params }: SourceDetailProps) {
       <PageContent>
         <CardFrame>
           <CardFrameHeader className="**:data-[slot='dialog-trigger']:h-7.25 py-3 pe-2.5 sm:pe-4">
-            <CardFrameTitle>
-              Notes {source._count.notes > 0 && `(${source._count.notes})`}
-            </CardFrameTitle>
+            <CardFrameTitle>Notes {notes.length > 0 && `(${notes.length})`}</CardFrameTitle>
 
             <CardFrameAction>
               <CreateNoteDialog researchId={research.id} sourceId={source.id} />

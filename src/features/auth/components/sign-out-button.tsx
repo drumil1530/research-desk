@@ -1,6 +1,6 @@
 import { Button } from "@/coss/ui/button";
 
-import { signOut } from "../actions/sign-out";
+import signOut from "../actions/sign-out";
 
 export default function SignOutButton() {
   return (

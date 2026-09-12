@@ -1,12 +1,7 @@
 import { db } from "../db";
-import type {
-  NoteCreateInput,
-  NoteDeleteInput,
-  NoteGetLatestUpdated,
-  NoteUpdateInput,
-} from "../types/note";
+import type * as Note from "../types/note";
 
-async function create(input: NoteCreateInput) {
+async function create(input: Note.CreateInput) {
   const { content, researchId, sourceId } = input;
   return db.note.create({
     data: {
@@ -17,7 +12,7 @@ async function create(input: NoteCreateInput) {
   });
 }
 
-async function update(input: NoteUpdateInput) {
+async function update(input: Note.UpdateInput) {
   const { noteId: id, content, researchId } = input;
   return db.note.update({
     where: {
@@ -32,7 +27,7 @@ async function update(input: NoteUpdateInput) {
   });
 }
 
-async function remove(input: NoteDeleteInput) {
+async function remove(input: Note.DeleteInput) {
   const { noteId: id, researchId } = input;
   return db.note.delete({
     where: {
@@ -44,7 +39,7 @@ async function remove(input: NoteDeleteInput) {
   });
 }
 
-async function getLatestUpdated(input: NoteGetLatestUpdated) {
+async function getLatestUpdated(input: Note.GetLatestUpdated) {
   return db.note.findMany({
     where: {
       research: {

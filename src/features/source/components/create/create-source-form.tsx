@@ -26,7 +26,7 @@ import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
 type CreateSourceFormProps = {
   researchId: string;
-  onSuccess: () => void;
+  onSuccess: (sourceId: string) => void;
 };
 
 export default function CreateSourceForm({ researchId, onSuccess }: CreateSourceFormProps) {
@@ -56,7 +56,7 @@ export default function CreateSourceForm({ researchId, onSuccess }: CreateSource
       return;
     }
 
-    onSuccess();
+    onSuccess(result.data.id);
   }
 
   return (
@@ -125,7 +125,7 @@ export default function CreateSourceForm({ researchId, onSuccess }: CreateSource
         <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
 
         <Button loading={form.formState.isSubmitting} type="submit">
-          Add Source
+          Add
         </Button>
       </DialogFooter>
     </Form>

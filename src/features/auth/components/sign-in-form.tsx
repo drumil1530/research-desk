@@ -9,7 +9,7 @@ import { Button } from "@/coss/ui/button";
 import { Form } from "@/coss/ui/form";
 import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 
-import { signIn } from "../actions/sign-in";
+import signIn from "../actions/sign-in";
 import { signInSchema, type SignInInput } from "../schemas";
 
 export default function SignInForm() {

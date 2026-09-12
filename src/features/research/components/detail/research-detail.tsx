@@ -139,7 +139,7 @@ export default async function ResearchDetail({ params }: ResearchDetailProps) {
       <PageContent>
         <CardFrame>
           <CardFrameHeader className="**:data-[slot='dialog-trigger']:h-7.25 has-[&_[data-slot='dialog-trigger']]:py-3">
-            <CardFrameTitle className="self-start">Summary</CardFrameTitle>
+            <CardFrameTitle>Summary</CardFrameTitle>
 
             <CardFrameAction>
               <UpdateResearchSummaryDialog researchId={research.id} summary={research.summary} />

@@ -1,15 +1,7 @@
 import { db } from "../db";
-import type {
-  SourceCreateInput,
-  SourceUpdateInput,
-  SourceDeleteInput,
-  SourceBelongsToResearchInput,
-  SourceGetByIdInput,
-  SourceGetMetadataByIdInput as SourceGetTitleByIdInput,
-  SourceGetLatestUpdatedInput,
-} from "../types/source";
+import type * as Source from "../types/source";
 
-async function create(input: SourceCreateInput) {
+async function create(input: Source.CreateInput) {
   const { researchId, title, description, url, type } = input;
 
   return db.source.create({
@@ -23,7 +15,7 @@ async function create(input: SourceCreateInput) {
   });
 }
 
-async function getById(input: SourceGetByIdInput) {
+async function getById(input: Source.GetByIdInput) {
   const { sourceId: id, researchId, userId } = input;
 
   return db.source.findUnique({
@@ -49,16 +41,12 @@ async function getById(input: SourceGetByIdInput) {
           id: true,
           content: true,
         },
-        orderBy: [{ updatedAt: "desc" }, { id: "asc" }],
-      },
-      _count: {
-        select: { notes: true },
       },
     },
   });
 }
 
-async function getTitleById(input: SourceGetTitleByIdInput) {
+async function getTitleById(input: Source.GetTitleByIdInput) {
   const { sourceId: id, researchId, userId } = input;
 
   return db.source.findUnique({
@@ -77,7 +65,7 @@ async function getTitleById(input: SourceGetTitleByIdInput) {
   });
 }
 
-async function update(input: SourceUpdateInput) {
+async function update(input: Source.UpdateInput) {
   const { sourceId: id, researchId, ...data } = input;
 
   return db.source.update({
@@ -91,7 +79,7 @@ async function update(input: SourceUpdateInput) {
   });
 }
 
-async function remove(input: SourceDeleteInput) {
+async function remove(input: Source.DeleteInput) {
   const { sourceId: id, researchId } = input;
 
   return db.source.delete({
@@ -104,7 +92,7 @@ async function remove(input: SourceDeleteInput) {
   });
 }
 
-async function belongsToResearch(input: SourceBelongsToResearchInput) {
+async function belongsToResearch(input: Source.BelongsToResearchInput) {
   const { sourceId: id, researchId } = input;
   const source = await db.source.findUnique({
     where: {
@@ -119,7 +107,7 @@ async function belongsToResearch(input: SourceBelongsToResearchInput) {
   return source !== null;
 }
 
-async function getLatestUpdated(input: SourceGetLatestUpdatedInput) {
+async function getLatestUpdated(input: Source.GetLatestUpdatedInput) {
   return db.source.findMany({
     where: {
       research: {

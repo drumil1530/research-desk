@@ -1,20 +1,20 @@
-export type NoteCreateInput = {
+export type CreateInput = {
   researchId: string;
   sourceId?: string;
   content: string;
 };
 
-export type NoteUpdateInput = {
+export type UpdateInput = {
   noteId: string;
   researchId: string;
   content: string;
 };
 
-export type NoteDeleteInput = {
+export type DeleteInput = {
   noteId: string;
   researchId: string;
 };
 
-export type NoteGetLatestUpdated = {
+export type GetLatestUpdated = {
   userId: string;
 };

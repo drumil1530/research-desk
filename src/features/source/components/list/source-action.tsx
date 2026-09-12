@@ -1,11 +1,10 @@
 "use client";
 
-import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/coss/ui/button";
 import { Menu, MenuItem, MenuPopup, MenuTrigger } from "@/coss/ui/menu";
-import CreateNoteDialog from "@/features/note/components/create/create-note-dialog";
 import { type Source } from "@/generated/prisma/client";
 
 import DeleteSourceDialog from "../delete/delete-source-dialog";
@@ -16,7 +15,6 @@ type SourceActionsProps = {
 };
 
 export default function SourceActions({ source }: SourceActionsProps) {
-  const [addNoteOpen, setAddNoteOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -28,11 +26,6 @@ export default function SourceActions({ source }: SourceActionsProps) {
         </MenuTrigger>
 
         <MenuPopup align="end">
-          <MenuItem onClick={() => setAddNoteOpen(true)}>
-            <Plus />
-            Add Note
-          </MenuItem>
-
           <MenuItem onClick={() => setUpdateOpen(true)}>
             <Pencil />
             Edit
@@ -44,13 +37,6 @@ export default function SourceActions({ source }: SourceActionsProps) {
           </MenuItem>
         </MenuPopup>
       </Menu>
-
-      <CreateNoteDialog
-        open={addNoteOpen}
-        onOpenChange={setAddNoteOpen}
-        researchId={source.researchId}
-        sourceId={source.id}
-      />
 
       <UpdateSourceDialog open={updateOpen} onOpenChange={setUpdateOpen} source={source} />
 

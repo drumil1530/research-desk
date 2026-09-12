@@ -1,3 +1,3 @@
-export type DashboardGetCount = {
+export type GetCount = {
   userId: string;
 };
