@@ -12,6 +12,8 @@ import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 import signIn from "../actions/sign-in";
 import { signInSchema, type SignInInput } from "../schemas";
 
+import PasswordInput from "./password-input";
+
 export default function SignInForm() {
   const form = useForm<SignInInput>({
     resolver: zodResolver(signInSchema),
@@ -58,12 +60,11 @@ export default function SignInForm() {
         type="email"
       />
 
-      <FormTextField
+      <PasswordInput
         {...form.register("password")}
         label="Password"
         placeholder="Your password"
         autoComplete="current-password"
-        type="password"
       />
 
       <FormError>{form.formState.errors.form?.message}</FormError>

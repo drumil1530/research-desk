@@ -12,6 +12,8 @@ import { setFormErrors, toFormErrors } from "@/shared/utils/form";
 import signUp from "../actions/sign-up";
 import { signUpSchema, type SignUpInput } from "../schemas";
 
+import PasswordInput from "./password-input";
+
 export default function SignUpForm() {
   const form = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
@@ -66,11 +68,10 @@ export default function SignUpForm() {
         autoComplete="email"
       />
 
-      <FormTextField
+      <PasswordInput
         {...form.register("password")}
         label="Password"
         placeholder="Create a password"
-        type="password"
         autoComplete="new-password"
       />
 

@@ -23,15 +23,20 @@ export default function NameField({ name }: NameFieldProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       <div className="flex gap-1 items-center text-sm font-medium">
         <span>Name</span>
-        <Button variant="ghost" size="icon-sm" onClick={() => setIsEditing(!isEditing)}>
+        <Button
+          onClick={() => setIsEditing(!isEditing)}
+          variant="ghost"
+          size="icon-xs"
+          className="[&>svg]:size-3.5!"
+        >
           {isEditing ? <X /> : <Pencil />}
         </Button>
       </div>
       {!isEditing ? (
-        <p className="text-muted-foreground text-sm">{name}</p>
+        <p className="text-muted-foreground text-sm leading-6.5">{name}</p>
       ) : (
         <UpdateForm name={name} onSuccess={() => setIsEditing(false)} />
       )}

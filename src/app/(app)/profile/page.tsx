@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function ProfilePage() {
   return (
     <Page>
-      <PageHeader>
+      <PageHeader className="sm:flex-col sm:items-start gap-1">
         <PageTitle>Profile</PageTitle>
         <PageDescription>Manage your profile and account settings.</PageDescription>
       </PageHeader>

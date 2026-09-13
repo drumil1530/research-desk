@@ -65,6 +65,13 @@ async function updateUser(input: UpdateUserInput) {
   });
 }
 
+async function deleteUser() {
+  await auth.api.deleteUser({
+    body: {},
+    headers: await headers(),
+  });
+}
+
 export const service = {
   getCurrentUser,
   getUserOrRedirect,
@@ -72,4 +79,5 @@ export const service = {
   signIn,
   signOut,
   updateUser,
+  deleteUser,
 };
