@@ -6,7 +6,7 @@ import { type PropsWithChildren } from "react";
 import { type authService } from "@/infrastructure/auth";
 import ROUTES from "@/shared/routes";
 
-import { Logo } from "../icons/logo";
+import { LogoMark } from "../icons/logo";
 
 import { NavUser } from "./nav-user";
 
@@ -19,7 +19,7 @@ export default function AppShell({ children, user }: AppShellProps) {
     <div className="flex min-h-screen flex-col">
       <header className="flex h-14 shrink-0 items-center border-b px-4">
         <Link href={ROUTES.dashboard} className="flex items-center gap-2 font-semibold">
-          <Logo />
+          <LogoMark className="size-8" />
         </Link>
 
         <div className="ms-auto">

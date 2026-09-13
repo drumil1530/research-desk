@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { Logo } from "@/components/icons/logo";
+import { LogoMark, LogoText } from "@/components/icons/logo";
 import { authService } from "@/infrastructure/auth";
 import ROUTES from "@/shared/routes";
 
@@ -13,7 +13,9 @@ export default async function AuthLayout({ children }: LayoutProps<"/auth">) {
     <main className="flex min-h-svh flex-col">
       <div className="flex flex-1 items-center justify-center p-6">
         <div className="flex w-full max-w-sm flex-col gap-5">
-          <Logo className="self-center" />
+          <div className="flex items-end justify-center gap-2">
+            <LogoMark className="size-10" /> <LogoText className="text-2xl" />
+          </div>
           {children}
         </div>
       </div>

@@ -22,6 +22,21 @@ export const metadata: Metadata = {
   },
   description:
     "A focused research workspace for turning a question into an organized collection of sources, notes, and conclusions.",
+
+  icons: {
+    icon: [
+      {
+        url: "/brand/mark-128-light.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/brand/mark-128-dark.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

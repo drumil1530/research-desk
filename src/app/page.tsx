@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Logo } from "@/components/icons/logo";
+import { LogoMark } from "@/components/icons/logo";
 import { Button } from "@/coss/ui/button";
 import { authService } from "@/infrastructure/auth";
 import ROUTES from "@/shared/routes";
@@ -13,7 +13,7 @@ export default async function HomePage() {
   return (
     <>
       <header className="flex items-center justify-between px-6 py-5">
-        <Logo />
+        <LogoMark className="size-8" />
 
         <Button
           variant="ghost"
